@@ -39,6 +39,11 @@ def add_project():
 @jwt_required()
 def update_project(id):
     project = Project.query.get_or_404(id)
+    admin_id = get_jwt_identity()
+    
+    if project.admin_id != admin_id:
+        return jsonify({"msg": "Unauthorized"}), 403
+    
     data = request.get_json() or {}
     project.title = data.get("title", project.title)
     project.description = data.get("description", project.description)
@@ -54,6 +59,12 @@ def update_project(id):
 @jwt_required()
 def delete_project(id):
     project = Project.query.get_or_404(id)
+    
+    admin_id = get_jwt_identity()
+    
+    if project.admin_id != admin_id:
+        return jsonify({"msg": "Unauthorized"}), 403
+    
     db.session.delete(project)
     db.session.commit()
     return jsonify({"msg": "Project deleted"}), 200

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models.certificate import Certificate
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
 
 bp = Blueprint("certificates", __name__, url_prefix="/api/certificates")
@@ -13,6 +13,7 @@ def add_certificate():
     data = request.get_json() or {}
     
     try:
+        admin_id = get_jwt_identity()
         cert = Certificate(
             title=data.get("title"),
             issuer=data.get("issuer"),
@@ -24,7 +25,8 @@ def add_certificate():
             description=data.get("description"),
             image_url=data.get("image_url"),
             file_url=data.get("file_url"),
-            tags=",".join(data.get("tags", [])) if isinstance(data.get("tags"), list) else data.get("tags")
+            tags=",".join(data.get("tags", [])) if isinstance(data.get("tags"), list) else data.get("tags"),
+            admin_id=admin_id
         )
 
         db.session.add(cert)
@@ -43,6 +45,11 @@ def update_certificate(cert_id):
     data = request.get_json() or {}
 
     try:
+        
+        admin_id = get_jwt_identity()
+        if cert.admin_id != admin_id:
+            return jsonify({"msg": "Unauthorized"}), 403
+        
         cert.title = data.get("title", cert.title)
         cert.issuer = data.get("issuer", cert.issuer)
         if data.get("issue_date"):
@@ -70,6 +77,9 @@ def update_certificate(cert_id):
 @jwt_required()
 def delete_certificate(cert_id):
     cert = Certificate.query.get_or_404(cert_id)
+    admin_id = get_jwt_identity()
+    if cert.admin_id != admin_id:
+        return jsonify({"msg": "Unauthorized"}), 403
     db.session.delete(cert)
     db.session.commit()
     return jsonify({"msg": "Certificate deleted successfully"})
