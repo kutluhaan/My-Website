@@ -16,6 +16,19 @@ def create_app():
     # register blueprints
     from app.routes.auth_routes import bp as auth_bp
     app.register_blueprint(auth_bp)
+    
+    from app.routes.project_routes import bp as project_bp
+    app.register_blueprint(project_bp)
+
+    from app.routes.resume_routes import bp as resume_bp
+    app.register_blueprint(resume_bp)
+
+    from app.routes.admin_routes import bp as admin_manage_bp
+    app.register_blueprint(admin_manage_bp)
+
+    from app.routes.certificates_routes import bp as cert_bp
+    app.register_blueprint(cert_bp)
+
 
     # diğer route'ları da register et
     # from app.routes.visitor_routes import visitor_bp
