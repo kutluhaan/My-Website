@@ -1,56 +1,29 @@
 .about-me-section {
   display: flex;
   flex-direction: row;
-  padding: 10px 10px;
+  padding: 60px  0px 20px 10px;
   color: #000000;
   background-color: #000000;
+  height: 100vh;
+  justify-content: center;
 }
-
 .about-me-content {
-  height: 40vw;       /* same height as width for square shape */
-  overflow: auto;     /* scrollable if content overflows */
-  padding-right: 10px; /* optional: to prevent scrollbar overlapping text */
-  box-sizing: border-box;
+  width: 45%;
+  padding-right: 20px; /* Adds 20px space on the right */
 }
 
-
-.about-me-section h2 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  font-family: 'Orbitron', sans-serif; /* example font */
-}
-z
-.about-section h3 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #a19da5;
-}
-
-.about-section h4 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #ccc;
-}
-
-ul {
-  list-style-type: disc;
-  color: #bbb;
-}
-
-p, li {
-  line-height: 1.5;
-  font-size: 1.1rem;
-}
-
-a {
+.text {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* fill the container width */
+  max-width: 100%; /* just to be safe */
+  font-family: 'Baumans', system-ui;
+  font-size: 20px;
   color: #7B7481;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 .cubes {
-  width: 50vw;
+  padding-top: 80px;
+  width: 45%;
 }

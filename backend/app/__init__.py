@@ -1,11 +1,13 @@
 from flask import Flask
+from flask_cors import CORS
 from config import Config
 from app.extensions import db, bcrypt, jwt, limiter, migrate
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
+    CORS(app, origins=["http://localhost:3000"])
+    
     # init extensions
     db.init_app(app)
     bcrypt.init_app(app)

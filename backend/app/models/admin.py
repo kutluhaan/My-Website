@@ -9,8 +9,14 @@ class AdminUser(db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    about = db.Column(db.Text, nullable=False)
-    profile_photo_url = db.Column(db.String(200), nullable=False)
+    about = db.Column(db.Text, nullable=True)
+    profile_photo_url = db.Column(db.String(200), nullable=True)
+    linkedin_url = db.Column(db.String(200), nullable=True)
+    instagram_url = db.Column(db.String(200), nullable=True)
+    leetcode_url = db.Column(db.String(200), nullable=True)
+    github_url = db.Column(db.String(200), nullable=True)
+    hackerrank_url = db.Column(db.String(200), nullable=True)
+    spotify_url = db.Column(db.String(200), nullable=True)
     
 
     # one-to-one backref to resume

@@ -1,9 +1,30 @@
 import "./Trapezoid.css";
+import React, { useContext, useEffect } from "react";
 import DecryptedText from "./react-bits/DecryptedText";
+import GlassIcons from "./react-bits/GlassIcons";
 import logo from "../assets/no-bg-logo.png";
-
+import { FaInstagram, FaSquareGithub, FaLinkedin, FaSpotify } from "react-icons/fa6";
+import { TbBrandLeetcode } from "react-icons/tb";
+import { SiHackerrank } from "react-icons/si";
+import { AdminContext } from "../contexts/AdminContext";
 
 function Trapezoid() {
+
+    const { admin, loading, error } = useContext(AdminContext);
+
+    if (loading) return <div>Loading admin info...</div>;
+    if (error) return <div>Error: {error}</div>;
+
+
+    const items = [
+    { icon: <FaInstagram />, color: 'gray', label: 'Instagram', url: admin.instagram_url },
+    { icon: <FaLinkedin />, color: 'gray', label: 'LinkedIn', url: admin.linkedin_url },
+    { icon: <FaSquareGithub />, color: 'gray', label: 'GitHub', url: admin.github_url },
+    { icon: <TbBrandLeetcode />, color: 'gray', label: 'LeetCode', url: admin.leetcode_url },
+    { icon: <SiHackerrank />, color: 'gray', label: 'HackerRank', url: admin.hackerrank_url },
+    { icon: <FaSpotify />, color: 'gray', label: 'Spotify', url: admin.spotify_url },
+    ];
+
   return (
     <div className="trapezoid-section" id="home">    
         <div className="trapezoid-content">
@@ -35,11 +56,19 @@ function Trapezoid() {
                     animateOn="hover"
                     encryptedClassName="encrypted-text"
                 />
+
+                <GlassIcons items={items} className="custom-class"/>
+
+            
             </div>
         </div>
 
         <div className="trapezoid-photo-container">
-            <img src="https://drive.google.com/uc?export=view&id=1cdr6hr-abJFO0f_1oq9cZgJBvR-yvxnd" alt="Kutluhan" className="trapezoid-photo" />
+        <img
+            src={admin.profile_photo_url} // Fallback if photo_url is not available
+            alt="Kutluhan"
+            className="trapezoid-photo"
+        />
         </div>
     </div>
   );

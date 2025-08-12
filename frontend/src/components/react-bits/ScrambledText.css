@@ -1,0 +1,12 @@
+.text-block {
+  width: 100%; /* fill the container width */
+  max-width: 100%; /* just to be safe */
+  font-family: monospace;
+  font-size: clamp(14px, 4vw, 21px);
+  color: #fff;
+}
+
+.char {
+  will-change: transform;
+  display: inline-block;
+}

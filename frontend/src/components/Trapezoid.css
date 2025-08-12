@@ -20,10 +20,12 @@
 
 .trapezoid-decrypt-text {
   margin-left: 70px;
+  margin-top: 150px;;
   display: flex;
   flex-direction: column; /* Stack text vertically */
-    justify-content: center;
+  justify-content: center;
   align-items: left;
+  position: absolute;
 }
 
 .decrypted-text-greeting,

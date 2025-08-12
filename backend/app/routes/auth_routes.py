@@ -5,22 +5,48 @@ from app.models.admin import AdminUser
 
 bp = Blueprint("auth", __name__, url_prefix="/api/admin")
 
-# Register Endpoint - Working
 @bp.route("/register", methods=["POST"])
 def register():
-    # Sadece ilk defa admin eklemek veya CLI ile eklemek daha güvenlidir.
     data = request.get_json() or {}
+
     email = data.get("email")
     password = data.get("password")
+    about = data.get("about")
+    profile_photo_url = data.get("profile_photo_url")
+    linkedin_url = data.get("linkedin_url")
+    instagram_url = data.get("instagram_url")
+    leetcode_url = data.get("leetcode_url")
+    github_url = data.get("github_url")
+    hackerrank_url = data.get("hackerrank_url")
+    spotify_url = data.get("spotify_url")
+
+    # Required fields check
     if not email or not password:
-        return jsonify({"msg":"email and password required"}), 400
+        return jsonify({"msg": "email, password, about, and profile_photo_url are required"}), 400
+
+    # Check if user already exists
     if AdminUser.query.filter_by(email=email).first():
-        return jsonify({"msg":"user already exists"}), 409
-    user = AdminUser(email=email)
+        return jsonify({"msg": "user already exists"}), 409
+
+    # Create new admin user
+    user = AdminUser(
+        email=email,
+        about=about,
+        profile_photo_url=profile_photo_url,
+        linkedin_url=linkedin_url,
+        instagram_url=instagram_url,
+        leetcode_url=leetcode_url,
+        github_url=github_url,
+        hackerrank_url=hackerrank_url,
+        spotify_url=spotify_url,
+    )
     user.set_password(password)
+
+    # Add and commit to DB
     db.session.add(user)
     db.session.commit()
-    return jsonify({"msg":"admin created"}), 201
+
+    return jsonify({"msg": "admin created"}), 201
 
 # Login Endpoint - Working
 @bp.route("/login", methods=["POST"])
@@ -50,3 +76,27 @@ def login():
 def jwt_test():
     identity = get_jwt_identity()
     return jsonify({"msg": "Token valid", "user_id": identity}), 200
+
+
+@bp.route("/get-admin", methods=["GET"])
+def get_first_admin():
+    admin = AdminUser.query.first()
+    if not admin:
+        return jsonify({"msg": "No admin found"}), 404
+
+    # Serialize the admin object as a dictionary (adjust fields as needed)
+    admin_data = {
+        "id": admin.id,
+        "email": admin.email,
+        "about": admin.about,
+        "profile_photo_url": admin.profile_photo_url,
+        "linkedin_url": admin.linkedin_url,
+        "instagram_url": admin.instagram_url,
+        "leetcode_url": admin.leetcode_url,
+        "github_url": admin.github_url,
+        "hackerrank_url": admin.hackerrank_url,
+        "spotify_url": admin.spotify_url,
+        "created_at": admin.created_at.isoformat() if admin.created_at else None,
+    }
+
+    return jsonify(admin_data), 200

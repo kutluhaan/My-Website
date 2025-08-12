@@ -23,6 +23,7 @@
 
 import Silk from "./components/react-bits/Silk";
 import ScrollVelocity from "./components/react-bits/ScrollVelocity";
+import TrueFocus from "./components/react-bits/TrueFocus";
 import Navbar from "./components/Navbar";
 import Trapezoid from "./components/Trapezoid";
 import "./App.css";
@@ -60,6 +61,14 @@ function App() {
             scrollerClassName="scroller"
         />
         <AboutMe />
+        <TrueFocus 
+        sentence="ALWAYS CODING"
+        manualMode={false}
+        blurAmount={5}
+        borderColor="white"
+        animationDuration={2}
+        pauseBetweenAnimations={1}
+        />
       </div>
     </div>
   );
