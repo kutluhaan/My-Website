@@ -9,6 +9,9 @@ class AdminUser(db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    about = db.Column(db.Text, nullable=False)
+    profile_photo_url = db.Column(db.String(200), nullable=False)
+    
 
     # one-to-one backref to resume
     resume = db.relationship("Resume", uselist=False, back_populates="admin", cascade="all, delete-orphan")
