@@ -31,6 +31,7 @@ import AboutMe from "./components/AboutMe";
 import Projects from "./components/Projects";
 import Resume from "./components/Resume";
 import Certificates from "./components/Certificates";
+import Contact from "./components/Contact";
 
 function App() {
 
@@ -66,7 +67,7 @@ function App() {
         <AboutMe />
         <Projects />
         <TrueFocus 
-        sentence="ALWAYS CODING"
+        sentence="RESUME HERE!"
         manualMode={false}
         blurAmount={5}
         borderColor="white"
@@ -75,7 +76,7 @@ function App() {
         />
         <Resume />
         <Certificates />
-        <div style={{height:"100px"}}></div>
+        <Contact/>
       </div>
     </div>
   );

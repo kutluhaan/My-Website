@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=GFS+Neohellenic:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nobile:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@1..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
+
 .resume-container {
   display: flex;
   flex-direction: column;
@@ -29,6 +38,7 @@
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: #bebebe;
+  font-family: "Marcellus", serif;
 }
 
 .contact-info {
@@ -38,6 +48,7 @@
   gap: 1rem;
   font-size: 1rem;
   color: #555;
+  font-family: "Arsenal SC", sans-serif;
 }
 
 .contact-info span {
@@ -56,6 +67,7 @@
   color: #bebebe;
   text-decoration: none;
   transition: color 0.2s ease;
+  font-family: "Arsenal SC", sans-serif;
 }
 
 .contact-info a:hover {
@@ -75,11 +87,11 @@
 
 .part-title {
   font-size: 2rem;
-  font-weight: 600;
   margin-bottom: 1rem;
   color: #ffffff;
   border-left: 5px solid #ffffff;
   padding-left: 0.5rem;
+  font-family: "GFS Neohellenic", sans-serif;
 }
 
 .sub-parts {
@@ -103,12 +115,14 @@
   font-weight: 600;
   color: #dcdcdc;
   margin-right: 1rem;
+  font-family: "Nobile", sans-serif;
 }
 
 .sub-part-location {
   font-size: 1rem;
   color: #b5b4b4;
   font-style: italic;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .sub-part-dates {
@@ -116,12 +130,15 @@
   color: #868585;
   white-space: nowrap;
   margin-left: auto;
+  font-style: italic;
+  font-family: "Dosis", sans-serif;
 }
 
 .description-list {
   list-style-type: disc;
   margin-left: 1.5rem;
   color: #b5b4b4;
+  font-family: "Philosopher", sans-serif;
 }
 
 .description-text {

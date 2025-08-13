@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+
+.contact-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.contact-section .liquidChrome-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.contact-overlay {
+  position: relative;
+  z-index: 1;
+  width: 90%;           /* maximize width relative to viewport */
+  max-width: 1200px;    /* increased max width */
+  background: transparent;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;  /* align form and icons at top */
+  gap: 4rem;               /* space between form and icons */
+  padding: 2rem;
+}
+
+.contact-title {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: "Lexend", sans-serif;
+}
+
+.contact-form {
+  flex: 2;                /* make form take more space */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;            /* increased spacing between inputs */
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 1rem 1.2rem;  /* slightly bigger inputs */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  background: rgba(10,10,10,0.8);
+  color: #ccc;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.contact-form textarea {
+  min-height: 150px;
+}
+
+.contact-form button {
+  padding: 0.8rem 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: rgb(255, 255, 255);
+  font-size: 0.7rem;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-family: "Michroma", sans-serif;
+}
+
+.contact-form button:hover {
+  color: #828282;
+}
+
+/* Glass icons container styling */
+.glass-icons-container.custom-class {
+  flex: 1;                    /* icons take space on right */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2.5rem;               /* more space between each icon */
+  margin-top: 3.3rem;           /* extra top margin if needed */
+}

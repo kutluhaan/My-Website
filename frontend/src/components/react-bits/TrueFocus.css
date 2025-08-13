@@ -7,7 +7,7 @@
   flex-wrap: wrap;
   padding: 50px;
   background-color: black;
-  border-bottom: #d7d6d8 1px dashed;
+  border-top: #d7d6d8 1px solid;
   font-family: "Hammersmith One", sans-serif;
   height: min-content;
 }
