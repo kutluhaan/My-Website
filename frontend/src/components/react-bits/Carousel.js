@@ -45,14 +45,14 @@ const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
 export default function Carousel({
   items = DEFAULT_ITEMS,
-  baseWidth = 300,
+  baseWidth = 700,
   autoplay = false,
   autoplayDelay = 3000,
   pauseOnHover = false,
   loop = false,
   round = false,
 }) {
-  const containerPadding = 16;
+  const containerPadding = 0;
   const itemWidth = baseWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
 
@@ -186,13 +186,19 @@ export default function Carousel({
               }}
               transition={effectiveTransition}
             >
-              <div className={`carousel-item-header ${round ? "round" : ""}`}>
+                <img
+                src={item.icon.props.src}    // item.icon was your img element, so we can extract src
+                alt={item.title}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+
+              {/*<div className={`carousel-item-header ${round ? "round" : ""}`}>
                 <span className="carousel-icon-container">
                   {item.icon}
                 </span>
               </div>
               <div className="carousel-item-content">
-              </div>
+              </div>*/}
             </motion.div>
           );
         })}

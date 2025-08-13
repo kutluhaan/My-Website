@@ -2,23 +2,16 @@
 .projects-section {
   position: relative;
   overflow: hidden;
-  min-height: 100vh; /* let it grow with content */
+  height: 100%; /* let it grow with content */
 }
 
-.galaxy-background {
+.letter-glitch-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
-}
-
-.galaxy-background canvas {
-  width: 100%;
-  height: 100vh;
-  display: block;
-  background-color: black;
 }
 
 .projects-content {
@@ -62,7 +55,22 @@
   justify-content: space-between;
 }
 
-.project-card p {
-  font-size: 0.9rem;
-  line-height: 1.4;
+.project-card-text-container {
+  flex: 1; /* allows text to take available space */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* change here */
+  user-select: text;
+}
+
+.project-card-title {
+  color: rgba(255, 255, 255, 0.685);
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 0.5rem;
+}
+ 
+.project-card-text {
+  font-family: "Space Grotesk", sans-serif;
 }

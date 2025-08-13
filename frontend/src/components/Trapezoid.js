@@ -41,7 +41,7 @@ function Trapezoid() {
                     encryptedClassName="encrypted-text-greeting"
                 />
                 <DecryptedText
-                    text="I'm Kutluhan."
+                    text="I'm Kutluhan Aygüzel."
                     speed={100}        // lower = slower decryption effect
                     revealDirection="start" // or 'left' / 'right'
                     className="decrypted-text"

@@ -137,12 +137,12 @@ const SplitText = ({
       ref={ref}
       className={`split-parent ${className}`}
       style={{
-        color: "white", 
         textAlign,
         overflow: "hidden",
         display: "inline-block",
         whiteSpace: "normal",
-        wordWrap: "break-word"
+        wordWrap: "break-word",
+        fontFamily: "'Space Grotesk', sans-serif"
       }}
     >
       {text}
