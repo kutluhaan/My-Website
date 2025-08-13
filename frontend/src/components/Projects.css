@@ -1,0 +1,68 @@
+/* Projects Section */
+.projects-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh; /* let it grow with content */
+}
+
+.galaxy-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.galaxy-background canvas {
+  width: 100%;
+  height: 100vh;
+  display: block;
+  background-color: black;
+}
+
+.projects-content {
+  position: relative;
+  z-index: 1; /* stays above galaxy */
+  padding: 2rem;
+  color: white;
+  background: transparent; /* important: don't block galaxy */
+}
+
+.var-pro-text {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Projects Grid Layout */
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap; /* allows wrapping to the next line */
+  justify-content: center; /* centers the row */
+  gap: 20px; /* spacing between cards */
+  align-items: flex-start;
+}
+
+.project-card-glare {
+  width: 100% !important; /* ensure glare wrapper takes full container width */
+  height: 100% !important;
+}
+
+/* Card Content Styling */
+.project-card {
+  width: 100%;
+  height: min-content;
+  background: #000000;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.project-card p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}

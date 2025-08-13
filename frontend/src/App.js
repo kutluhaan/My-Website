@@ -28,6 +28,7 @@ import Navbar from "./components/Navbar";
 import Trapezoid from "./components/Trapezoid";
 import "./App.css";
 import AboutMe from "./components/AboutMe";
+import Projects from "./components/Projects";
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
             scrollerClassName="scroller"
         />
         <AboutMe />
+        <Projects />
         <TrueFocus 
         sentence="ALWAYS CODING"
         manualMode={false}
@@ -69,6 +71,7 @@ function App() {
         animationDuration={2}
         pauseBetweenAnimations={1}
         />
+        
       </div>
     </div>
   );

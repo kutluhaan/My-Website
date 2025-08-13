@@ -1,5 +1,5 @@
 import "./Trapezoid.css";
-import React, { useContext, useEffect } from "react";
+import { useContext } from "react";
 import DecryptedText from "./react-bits/DecryptedText";
 import GlassIcons from "./react-bits/GlassIcons";
 import logo from "../assets/no-bg-logo.png";

@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.extensions import db
+from app.models.admin import AdminUser
 from app.models.project import Project
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -68,3 +69,25 @@ def delete_project(id):
     db.session.delete(project)
     db.session.commit()
     return jsonify({"msg": "Project deleted"}), 200
+
+
+@bp.route("/get-projects", methods=["GET"])
+def get_all_projects():
+    admin = AdminUser.query.first()  # get the single admin
+    if not admin:
+        return jsonify({"msg": "Admin not found"}), 404
+    projects = admin.projects  # SQLAlchemy relationship to projects
+
+    projects_data = []
+    for project in projects:
+        projects_data.append({
+            "id": project.id,
+            "title": project.title,
+            "description": project.description,
+            "github_link": project.github_link,
+            "website_link": project.website_link,
+            "images": project.images,
+            "created_at": project.created_at.isoformat() if project.created_at else None,
+        })
+
+    return jsonify({"projects": projects_data}), 200
