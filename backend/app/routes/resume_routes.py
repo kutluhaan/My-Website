@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models.resume import Resume, ResumePart, ResumeSubPart
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from sqlalchemy.orm import joinedload
+from ..models.admin import AdminUser
 
 bp = Blueprint("resume", __name__, url_prefix="/api/resume")
 
@@ -12,7 +12,7 @@ bp = Blueprint("resume", __name__, url_prefix="/api/resume")
 def add_resume():
     data = request.get_json() or {}
     admin_id = get_jwt_identity()
-    
+
     resume = Resume(
         admin_id=admin_id,
         owner_name=data.get("owner_name"),
@@ -22,10 +22,36 @@ def add_resume():
         github=data.get("github"),
         linkedin=data.get("linkedin")
     )
-    
+
     db.session.add(resume)
+    db.session.flush()  # to get resume.id for foreign keys
+
+    # Add parts and subparts
+    parts_data = data.get("parts", [])
+    for part_data in parts_data:
+        part = ResumePart(
+            resume_id=resume.id,
+            title=part_data.get("title"),
+            order_index=part_data.get("order_index", 0)
+        )
+        db.session.add(part)
+        db.session.flush()  # to get part.id
+
+        sub_parts_data = part_data.get("sub_parts", [])
+        for sub_part_data in sub_parts_data:
+            sub_part = ResumeSubPart(
+                part_id=part.id,
+                name=sub_part_data.get("name"),
+                location=sub_part_data.get("location"),
+                description=sub_part_data.get("description"),
+                start_date=sub_part_data.get("start_date"),
+                end_date=sub_part_data.get("end_date")
+            )
+            db.session.add(sub_part)
+
     db.session.commit()
-    return jsonify({"msg": "Resume added", "id": resume.id}), 201
+    return jsonify({"msg": "Resume with parts added", "id": resume.id}), 201
+
 
 # Update Resume - Working
 @bp.route("/update/<int:id>", methods=["PUT"])
@@ -149,24 +175,19 @@ def delete_resume_subpart(id):
     db.session.commit()
     return jsonify({"msg": "SubPart deleted"}), 200
 
-@bp.route("/<int:resume_id>", methods=["GET"])
-def get_resume_with_parts(resume_id):
-    """
-    Belirli bir resume ve ona ait tüm part & subpart'ları döndürür.
-    """
-    resume = (
-        Resume.query
-        .options(
-            joinedload(Resume.parts).joinedload("subparts")
-        )
-        .filter_by(id=resume_id)
-        .first()
-    )
 
+@bp.route("/get-resume", methods=["GET"])
+def get_admin_resume():
+    # Assuming you have only one admin and want their resume
+    admin = db.session.query(AdminUser).first()
+    if not admin:
+        return jsonify({"error": "No admin found"}), 404
+
+    resume = admin.resume
     if not resume:
-        return jsonify({"msg": "Resume not found"}), 404
+        return jsonify({"error": "Resume not found for admin"}), 404
 
-    # JSON formatına dönüştür
+    # Build nested JSON with parts and sub_parts
     resume_data = {
         "id": resume.id,
         "owner_name": resume.owner_name,
@@ -175,21 +196,33 @@ def get_resume_with_parts(resume_id):
         "email": resume.email,
         "github": resume.github,
         "linkedin": resume.linkedin,
-        "parts": []
+        "created_at": resume.created_at.isoformat() if resume.created_at else None,
+        "pdf_url": resume.pdf_url,
+        "parts": [],
     }
 
-    for part in resume.parts:
+    # Sort parts by order_index
+    parts = sorted(resume.parts, key=lambda p: p.order_index)
+    for part in parts:
         part_data = {
             "id": part.id,
             "title": part.title,
-            "subparts": []
+            "order_index": part.order_index,
+            "created_at": part.created_at.isoformat() if part.created_at else None,
+            "sub_parts": [],
         }
-        for sub in part.subparts:
-            part_data["subparts"].append({
+        for sub in part.sub_parts:
+            sub_data = {
                 "id": sub.id,
                 "name": sub.name,
-                "description": sub.description  # JSON list already
-            })
+                "location": sub.location,
+                "description": sub.description,  # JSONB, so directly serializable
+                "start_date": sub.start_date,
+                "end_date": sub.end_date,
+                "created_at": sub.created_at.isoformat() if sub.created_at else None,
+            }
+            part_data["sub_parts"].append(sub_data)
+
         resume_data["parts"].append(part_data)
 
-    return jsonify(resume_data), 200
+    return jsonify(resume_data)

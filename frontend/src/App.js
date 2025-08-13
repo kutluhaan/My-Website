@@ -29,6 +29,8 @@ import Trapezoid from "./components/Trapezoid";
 import "./App.css";
 import AboutMe from "./components/AboutMe";
 import Projects from "./components/Projects";
+import Resume from "./components/Resume";
+import Certificates from "./components/Certificates";
 
 function App() {
 
@@ -71,7 +73,9 @@ function App() {
         animationDuration={2}
         pauseBetweenAnimations={1}
         />
-        
+        <Resume />
+        <Certificates />
+        <div style={{height:"100px"}}></div>
       </div>
     </div>
   );

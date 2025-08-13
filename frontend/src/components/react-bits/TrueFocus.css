@@ -5,11 +5,11 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  background-color: black;
   padding: 50px;
-  border-top: #d7d6d8 1px dashed;
+  background-color: black;
   border-bottom: #d7d6d8 1px dashed;
   font-family: "Hammersmith One", sans-serif;
+  height: min-content;
 }
 
 .focus-word {

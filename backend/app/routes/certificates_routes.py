@@ -107,3 +107,31 @@ def list_certificates():
             "created_at": c.created_at.isoformat()
         })
     return jsonify(result)
+
+
+@bp.route("/all", methods=["GET"])
+def get_all_certificates():
+    certificates = Certificate.query.all()
+
+    # Serialize certificates
+    certs_list = [
+        {
+            "id": cert.id,
+            "title": cert.title,
+            "issuer": cert.issuer,
+            "issue_date": cert.issue_date.strftime("%Y-%m-%d") if cert.issue_date else None,
+            "expiration_date": cert.expiration_date.strftime("%Y-%m-%d") if cert.expiration_date else None,
+            "credential_id": cert.credential_id,
+            "credential_url": cert.credential_url,
+            "category": cert.category,
+            "description": cert.description,
+            "image_url": cert.image_url,
+            "file_url": cert.file_url,
+            "tags": cert.tags.split(",") if cert.tags else [],
+            "created_at": cert.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "admin_id": cert.admin_id
+        }
+        for cert in certificates
+    ]
+
+    return jsonify(certs_list), 200

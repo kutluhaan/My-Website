@@ -15,6 +15,7 @@ class Resume(db.Model):
     github = db.Column(db.String(255), nullable=True)
     linkedin = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    pdf_url = db.Column(db.String(255), nullable=True)  # PDF dosyasının URL'si
 
     admin = db.relationship("AdminUser", back_populates="resume")
 
