@@ -44,12 +44,13 @@ class ResumeSubPart(db.Model):
     __tablename__ = "resume_sub_parts"
     id = db.Column(db.Integer, primary_key=True)
     part_id = db.Column(db.Integer, db.ForeignKey("resume_parts.id"), nullable=False)
-    name = db.Column(db.String(255), nullable=False)  # Örn: "Sabancı University", "AI/ML Engineer Intern"
+    name = db.Column(db.String(255), nullable=True)  # Örn: "Sabancı University", "AI/ML Engineer Intern"
     location = db.Column(db.String(255), nullable=True)  # Örn: "Istanbul, Turkey"
     description = db.Column(JSONB, nullable=True)   # Detay açıklama
     start_date = db.Column(db.String(50), nullable=True)  # Tarih aralıkları (string olarak tutabiliriz)
     end_date = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    order_id = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f"<ResumeSubPart {self.name}>"

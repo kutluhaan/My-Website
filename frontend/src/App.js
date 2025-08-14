@@ -65,9 +65,9 @@ function App() {
             scrollerClassName="scroller"
         />
         <AboutMe />
-        <Projects />
+        {/*<Projects />*/}
         <TrueFocus 
-        sentence="RESUME HERE!"
+        sentence="MY RESUME"
         manualMode={false}
         blurAmount={5}
         borderColor="white"

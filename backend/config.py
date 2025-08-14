@@ -22,6 +22,7 @@ class Config:
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", SECRET_KEY)
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=int(os.getenv("JWT_ACCESS_HOURS", "1")))
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=int(os.getenv("JWT_REFRESH_DAYS", "7")))
+    SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 
     # Flask-Limiter
     RATELIMIT_HEADERS_ENABLED = True

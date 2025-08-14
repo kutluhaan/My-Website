@@ -30,6 +30,9 @@ def create_app():
 
     from app.routes.certificates_routes import bp as cert_bp
     app.register_blueprint(cert_bp)
+    
+    from app.services.mail_services import bp as mail_bp
+    app.register_blueprint(mail_bp)
 
 
     # diğer route'ları da register et

@@ -40,7 +40,7 @@ const Certificates = () => {
                     rel="noopener noreferrer"
                     className="certificate-link-icon"
                   >
-                    <FaExternalLinkAlt />
+                    <FaExternalLinkAlt style={{backgroundColor:"transparent"}} />
                   </a>
                 )}
               </div>

@@ -53,22 +53,26 @@ const Resume = () => {
 
         <div className="resume-parts">
           {resume.parts
-            .sort((a, b) => a.order_index - b.order_index)
+            .sort((a, b) => a.order_id - b.order_id)
             .map((part) => (
                 
               <section key={part.id} className="resume-part">
                 <h2 className="part-title">{part.title}</h2>
                 <div className="sub-parts">
-                  {part.sub_parts.map((sub) => (
+                  {part.sub_parts
+                  .sort((a, b) => a.order_id - b.order_id) // <-- sort by order_id
+                  .map((sub) => (
                     <article key={sub.id} className="sub-part">
                       <header className="sub-part-header">
                         <h3 className="sub-part-name">{sub.name}</h3>
                         {sub.location && <span className="sub-part-location">{sub.location}</span>}
                         {(sub.start_date || sub.end_date) && (
                           <time className="sub-part-dates">
-                            {sub.start_date} - {sub.end_date || "Present"}
+                            {sub.start_date}
+                            {sub.end_date ? ` - ${sub.end_date}` : ""}
                           </time>
                         )}
+
                       </header>
                       {sub.description && Array.isArray(sub.description) && (
                         <ul className="description-list">

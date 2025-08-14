@@ -85,7 +85,7 @@
 
 .icon-btn:focus-visible .icon-btn__label,
 .icon-btn:hover .icon-btn__label {
-  opacity: 1;
+  opacity: 0;
   transform: translateY(20%);
 }
 
