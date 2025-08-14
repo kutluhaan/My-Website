@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ResumeContext } from "../contexts/ResumeContext";
+import { ResumeContext } from "../../contexts/ResumeContext";
 import "./Resume.css";
 import { MdOpenInNew } from "react-icons/md";
 

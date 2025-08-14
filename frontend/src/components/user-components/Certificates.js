@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import "./Certificates.css";
-import { CertificatesContext } from "../contexts/CertificatesContext";
+import { CertificatesContext } from "../../contexts/CertificatesContext";
 
 const Certificates = () => {
   const { certificates, loading, error } = useContext(CertificatesContext);

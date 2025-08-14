@@ -2,11 +2,11 @@ import "./Trapezoid.css";
 import { useContext } from "react";
 import DecryptedText from "./react-bits/DecryptedText";
 import GlassIcons from "./react-bits/GlassIcons";
-import logo from "../assets/no-bg-logo.png";
+import logo from "../../assets/no-bg-logo.png";
 import { FaInstagram, FaSquareGithub, FaLinkedin, FaSpotify } from "react-icons/fa6";
 import { TbBrandLeetcode } from "react-icons/tb";
 import { SiHackerrank } from "react-icons/si";
-import { AdminContext } from "../contexts/AdminContext";
+import { AdminContext } from "../../contexts/AdminContext";
 
 function Trapezoid() {
 

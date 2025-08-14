@@ -1,6 +1,6 @@
 import { useContext, useRef } from "react";
 import "./Projects.css";
-import { ProjectsContext } from "../contexts/ProjectContext"; 
+import { ProjectsContext } from "../../contexts/ProjectContext"; 
 import Carousel from "./react-bits/Carousel";
 import SplitText from "./react-bits/SplitText";
 import TextType from "./react-bits/TextType";

@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import LiquidChrome from "./react-bits/LiquidChrome";
-import { AdminContext } from "../contexts/AdminContext";
+import { AdminContext } from "../../contexts/AdminContext";
 import "./Contact.css";
 import GlassIcons from "./react-bits/GlassIcons";
 

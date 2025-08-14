@@ -1,7 +1,7 @@
 import Cubes from "./react-bits/Cubes";
 import React, { useContext } from "react";
 import "./AboutMe.css";
-import { AdminContext } from "../contexts/AdminContext";
+import { AdminContext } from "../../contexts/AdminContext";
 import GradientText from "./react-bits/GradientText";
 import ScrambledText from "./react-bits/ScrambledText";
 

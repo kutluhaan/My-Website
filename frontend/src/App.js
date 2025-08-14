@@ -21,17 +21,17 @@
 // scroll velocity -> for the text
 
 
-import Silk from "./components/react-bits/Silk";
-import ScrollVelocity from "./components/react-bits/ScrollVelocity";
-import TrueFocus from "./components/react-bits/TrueFocus";
-import Navbar from "./components/Navbar";
-import Trapezoid from "./components/Trapezoid";
+import Silk from "./components/user-components/react-bits/Silk";
+import ScrollVelocity from "./components/user-components/react-bits/ScrollVelocity";
+import TrueFocus from "./components/user-components/react-bits/TrueFocus";
+import Navbar from "./components/user-components/Navbar";
+import Trapezoid from "./components/user-components/Trapezoid";
 import "./App.css";
-import AboutMe from "./components/AboutMe";
-import Projects from "./components/Projects";
-import Resume from "./components/Resume";
-import Certificates from "./components/Certificates";
-import Contact from "./components/Contact";
+import AboutMe from "./components/user-components/AboutMe";
+import Projects from "./components/user-components/Projects";
+import Resume from "./components/user-components/Resume";
+import Certificates from "./components/user-components/Certificates";
+import Contact from "./components/user-components/Contact";
 
 function App() {
 
