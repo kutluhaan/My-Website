@@ -1,26 +1,3 @@
-// galaxy, silk, thread, letter glitch -> background
-// magic bento, circular gallery, tilted card, chroma grid, spotlight card -> certificate
-// gooey nav -> navigation
-// tilted card, lanyard, profile card, spotlight card -> profile
-// glass icons -> social media or footer
-// flowing menu -> menu
-
-
-// animated content -> may be used for cards
-// fade content -> may be used for cards
-// glare hover -> may be used for buttons and cards
-// cubes -> to have a good display
-// metallic paint -> for my logo
-// splash cursor -> for the cursor
-// star border -> for buttons
-
-// text trail -> for the text
-// decrypted text -> for the text
-// true focus -> for the text
-// scroll reveal -> for the text
-// scroll velocity -> for the text
-
-
 import Silk from "./components/user-components/react-bits/Silk";
 import ScrollVelocity from "./components/user-components/react-bits/ScrollVelocity";
 import TrueFocus from "./components/user-components/react-bits/TrueFocus";
