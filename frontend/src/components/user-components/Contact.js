@@ -40,8 +40,6 @@ const Contact = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         setButtonText("Message Sent");
         setButtonColor("#4CAF50"); // green

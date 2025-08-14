@@ -226,3 +226,105 @@ def get_admin_resume():
         resume_data["parts"].append(part_data)
 
     return jsonify(resume_data)
+
+
+@bp.route("/all-resumes", methods=["GET"])
+@jwt_required()
+def get_all_resumes():
+    resumes = Resume.query.all()
+    all_resumes = []
+
+    for resume in resumes:
+        resume_data = {
+            "id": resume.id,
+            "owner_name": resume.owner_name,
+            "website": resume.website,
+            "phone": resume.phone,
+            "email": resume.email,
+            "github": resume.github,
+            "linkedin": resume.linkedin,
+            "pdf_url": resume.pdf_url,
+            "created_at": resume.created_at.isoformat() if resume.created_at else None,
+            "parts": []
+        }
+
+        # Add nested parts and sub_parts
+        for part in resume.parts:
+            part_data = {
+                "id": part.id,
+                "title": part.title,
+                "order_index": part.order_index,
+                "created_at": part.created_at.isoformat() if part.created_at else None,
+                "sub_parts": []
+            }
+
+            for sub in part.sub_parts:
+                sub_data = {
+                    "id": sub.id,
+                    "name": sub.name,
+                    "location": sub.location,
+                    "description": sub.description,
+                    "start_date": sub.start_date,
+                    "end_date": sub.end_date,
+                    "created_at": sub.created_at.isoformat() if sub.created_at else None
+                }
+                part_data["sub_parts"].append(sub_data)
+
+            resume_data["parts"].append(part_data)
+
+        all_resumes.append(resume_data)
+
+    return jsonify(all_resumes), 200
+
+@bp.route("/get-resume/<int:resume_id>", methods=["GET"])
+def get_resume(resume_id):
+    # Get resume by ID
+    resume = db.session.query(Resume).get(resume_id)
+    if not resume:
+        return jsonify({"error": "Resume not found"}), 404
+
+    # Build nested JSON with parts and sub_parts
+    resume_data = {
+        "id": resume.id,
+        "owner_name": resume.owner_name,
+        "website": resume.website,
+        "phone": resume.phone,
+        "email": resume.email,
+        "github": resume.github,
+        "linkedin": resume.linkedin,
+        "created_at": resume.created_at.isoformat() if resume.created_at else None,
+        "pdf_url": resume.pdf_url,
+        "parts": [],
+    }
+
+    # Sort parts by order_index
+    parts = sorted(resume.parts, key=lambda p: p.order_index)
+    for part in parts:
+        part_data = {
+            "id": part.id,
+            "title": part.title,
+            "order_index": part.order_index,
+            "created_at": part.created_at.isoformat() if part.created_at else None,
+            "sub_parts": [],
+        }
+        for sub in part.sub_parts:
+            def format_date(d):
+                if d is None:
+                    return None
+                # if it's a datetime object, convert to ISO, else assume string
+                return d.isoformat() if hasattr(d, "isoformat") else str(d)
+
+            sub_data = {
+                "id": sub.id,
+                "name": sub.name,
+                "location": sub.location,
+                "description": sub.description,
+                "start_date": format_date(sub.start_date),
+                "end_date": format_date(sub.end_date),
+                "created_at": format_date(sub.created_at),
+            }
+            part_data["sub_parts"].append(sub_data)
+
+        resume_data["parts"].append(part_data)
+
+    return jsonify(resume_data)

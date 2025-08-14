@@ -28,3 +28,44 @@
   padding-top: 80px;
   width: 45%;
 }
+
+/* AboutMe.css - Mobile Responsive */
+@media (max-width: 768px) {
+  .about-me-section {
+    flex-direction: column; /* Stack cubes and content vertically */
+    padding: 40px 15px 20px 15px;
+    height: auto; /* Let height grow naturally */
+  }
+
+  .cubes {
+    width: 90%;
+    padding-top: 40px;
+    margin: 0 auto;
+  }
+
+  .about-me-content {
+    width: 95%;
+    padding-right: 0;
+    margin-top: 30px;
+  }
+
+  .text {
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+/* For smaller phones */
+@media (max-width: 480px) {
+  .about-me-section {
+    padding: 30px 10px 20px 10px;
+  }
+
+  .animated-gradient-text {
+    font-size: 40px !important; /* scale down gradient text */
+  }
+
+  .text-block {
+    font-size: clamp(12px, 4vw, 18px);
+  }
+}

@@ -46,10 +46,6 @@ def update_certificate(cert_id):
 
     try:
         
-        admin_id = get_jwt_identity()
-        if cert.admin_id != admin_id:
-            return jsonify({"msg": "Unauthorized"}), 403
-        
         cert.title = data.get("title", cert.title)
         cert.issuer = data.get("issuer", cert.issuer)
         if data.get("issue_date"):
@@ -77,36 +73,34 @@ def update_certificate(cert_id):
 @jwt_required()
 def delete_certificate(cert_id):
     cert = Certificate.query.get_or_404(cert_id)
-    admin_id = get_jwt_identity()
-    if cert.admin_id != admin_id:
-        return jsonify({"msg": "Unauthorized"}), 403
     db.session.delete(cert)
     db.session.commit()
     return jsonify({"msg": "Certificate deleted successfully"})
 
 
-# List Certificates
-@bp.route("/list", methods=["GET"])
-def list_certificates():
-    certs = Certificate.query.order_by(Certificate.issue_date.desc()).all()
-    result = []
-    for c in certs:
-        result.append({
-            "id": c.id,
-            "title": c.title,
-            "issuer": c.issuer,
-            "issue_date": c.issue_date.isoformat(),
-            "expiration_date": c.expiration_date.isoformat() if c.expiration_date else None,
-            "credential_id": c.credential_id,
-            "credential_url": c.credential_url,
-            "category": c.category,
-            "description": c.description,
-            "image_url": c.image_url,
-            "file_url": c.file_url,
-            "tags": c.tags.split(",") if c.tags else [],
-            "created_at": c.created_at.isoformat()
-        })
-    return jsonify(result)
+@bp.route("/certificate/<int:cert_id>", methods=["GET"])
+def get_certificate(cert_id):
+    cert = Certificate.query.get_or_404(cert_id)
+
+    # Serialize certificates
+    certs_list = {
+            "id": cert.id,
+            "title": cert.title,
+            "issuer": cert.issuer,
+            "issue_date": cert.issue_date.strftime("%Y-%m-%d") if cert.issue_date else None,
+            "expiration_date": cert.expiration_date.strftime("%Y-%m-%d") if cert.expiration_date else None,
+            "credential_id": cert.credential_id,
+            "credential_url": cert.credential_url,
+            "category": cert.category,
+            "description": cert.description,
+            "image_url": cert.image_url,
+            "file_url": cert.file_url,
+            "tags": cert.tags.split(",") if cert.tags else [],
+            "created_at": cert.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "admin_id": cert.admin_id
+        }
+
+    return jsonify(certs_list), 200
 
 
 @bp.route("/all", methods=["GET"])

@@ -1,0 +1,61 @@
+.update-project-page-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fefefe;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.update-project-page-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.update-project-page-message {
+  text-align: center;
+  color: green;
+  margin-bottom: 15px;
+}
+
+.update-project-page-loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.update-project-page-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.update-project-page-label {
+  font-weight: bold;
+}
+
+.update-project-page-input,
+.update-project-page-textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.update-project-page-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.update-project-page-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update-project-page-button:hover {
+  background-color: #0056b3;
+}

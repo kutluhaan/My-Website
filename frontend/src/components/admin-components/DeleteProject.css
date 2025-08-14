@@ -1,0 +1,65 @@
+.delete-project-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.delete-project-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.delete-project-message {
+  text-align: center;
+  color: green;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.delete-project-empty {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+.delete-project-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  transition: box-shadow 0.2s ease;
+}
+
+.delete-project-card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.delete-project-info p {
+  margin: 4px 0;
+}
+
+.delete-project-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.delete-project-button:hover {
+  background-color: #c0392b;
+}
+
+.delete-project-loading {
+  text-align: center;
+  font-size: 18px;
+  padding: 20px;
+}

@@ -1,0 +1,58 @@
+.add-cert-page-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.add-cert-page-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.add-cert-page-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.add-cert-page-label {
+  font-weight: bold;
+}
+
+.add-cert-page-input,
+.add-cert-page-textarea {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.add-cert-page-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.add-cert-page-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-cert-page-button:hover {
+  background-color: #0056b3;
+}
+
+.add-cert-page-message {
+  text-align: center;
+  margin-top: 15px;
+  color: green;
+  font-weight: bold;
+}

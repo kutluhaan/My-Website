@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token
 from app.extensions import db, limiter
 from app.models.admin import AdminUser
 
-bp = Blueprint("auth", __name__, url_prefix="/api/admin")
+bp = Blueprint("auth", __name__, url_prefix="/api/auth")
 
 @bp.route("/register", methods=["POST"])
 def register():
@@ -69,34 +69,3 @@ def login():
     additional_claims = {"roles": "admin"}
     access_token = create_access_token(identity=str(user.id), additional_claims=additional_claims)
     return jsonify({"access_token": access_token}), 200
-
-# JWT Test Endpoint - Working
-@bp.route("/jwt-test", methods=["GET"])
-@jwt_required()
-def jwt_test():
-    identity = get_jwt_identity()
-    return jsonify({"msg": "Token valid", "user_id": identity}), 200
-
-
-@bp.route("/get-admin", methods=["GET"])
-def get_first_admin():
-    admin = AdminUser.query.first()
-    if not admin:
-        return jsonify({"msg": "No admin found"}), 404
-
-    # Serialize the admin object as a dictionary (adjust fields as needed)
-    admin_data = {
-        "id": admin.id,
-        "email": admin.email,
-        "about": admin.about,
-        "profile_photo_url": admin.profile_photo_url,
-        "linkedin_url": admin.linkedin_url,
-        "instagram_url": admin.instagram_url,
-        "leetcode_url": admin.leetcode_url,
-        "github_url": admin.github_url,
-        "hackerrank_url": admin.hackerrank_url,
-        "spotify_url": admin.spotify_url,
-        "created_at": admin.created_at.isoformat() if admin.created_at else None,
-    }
-
-    return jsonify(admin_data), 200

@@ -89,8 +89,8 @@
   font-family: "Michroma", sans-serif;
 }
 
-.contact-form button:hover {
-  color: #828282;
+.contact-form .contact-submit-button:hover {
+  color: #828282 !important;
 }
 
 /* Glass icons container styling */
