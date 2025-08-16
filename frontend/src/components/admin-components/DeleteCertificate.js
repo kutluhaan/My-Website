@@ -15,7 +15,7 @@ const DeleteCertificate = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:5000/api/certificates/certificate/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/certificates/certificate/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ const DeleteCertificate = () => {
 
     if (!window.confirm("Are you sure you want to delete this certificate?")) return;
 
-    fetch(`http://127.0.0.1:5000/api/certificates/delete/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/certificates/certificates/delete/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

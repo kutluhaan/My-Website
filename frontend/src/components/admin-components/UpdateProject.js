@@ -15,7 +15,8 @@ const UpdateProject = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/project/get-projects");
+        
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/project/get-projects`);
         const data = await response.json();
         if (!response.ok) {
           setMessage(data.msg || "Failed to fetch project");
@@ -51,8 +52,8 @@ const UpdateProject = () => {
       return;
     }
 
-    try {
-      const res = await fetch(`http://127.0.0.1:5000/api/project/update/${id}`, {
+    try { 
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/project/update/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

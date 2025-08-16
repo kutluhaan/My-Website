@@ -32,3 +32,9 @@
 .shiny-text.disabled {
   animation: none;
 }
+
+@media (max-width: 480px) {
+  .shiny-text {
+    font-size: 14px;       /* Make text smaller on phones */
+  }
+}

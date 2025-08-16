@@ -14,7 +14,7 @@ export const ResumeProvider = ({ children }) => {
   useEffect(() => {
     const fetchResume = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/resume/get-resume")// Adjust your API URL here
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/resume/get-resume`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

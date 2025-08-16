@@ -30,3 +30,48 @@
   height: 100%;
   background-color: rgba(255, 255, 255, 0.437); /* light divider */
 }
+
+/* Tablet and larger phone responsiveness */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 25px;       /* Less horizontal padding than desktop */
+    height: 70px;          /* Slightly shorter navbar */
+    justify-content: flex-end; /* Keep items on the right */
+  }
+
+  .nav-items {
+    gap: 20px;             /* Reduce space between items */
+  }
+
+  .nav-item {
+    padding: 20px;         /* Reduce padding for touch comfort */
+    font-size: 16px;       /* Slightly smaller font for tablets */
+  }
+
+  .divider {
+    height: 60%;           /* Shorter divider for compact look */
+  }
+}
+
+/* Mobile responsiveness for phones */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 15px;       /* Less horizontal padding */
+    height: 60px;          /* Slightly smaller navbar */
+    justify-content: center; /* Center nav items on small screens */
+  }
+
+  .nav-items {
+    flex-direction: column; /* Stack items vertically */
+    gap: 15px;             /* Smaller gap */
+  }
+
+  .nav-item {
+    padding: 10px 0;       /* Less padding for touch friendliness */
+    font-size: 14px;       /* Adjust font for smaller screens */
+  }
+
+  .divider {
+    display: none;          /* Hide divider on small screens */
+  }
+}

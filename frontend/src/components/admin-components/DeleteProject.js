@@ -13,7 +13,7 @@ export default function DeleteProject() {
       return;
     }
 
-    fetch("http://localhost:5000/api/project/get-projects", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/project/get-projects`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ export default function DeleteProject() {
 
     if (!window.confirm("Are you sure you want to delete this project?")) return;
 
-    fetch(`http://localhost:5000/api/project/delete/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/project/delete/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

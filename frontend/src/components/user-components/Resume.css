@@ -171,3 +171,125 @@
 .download-pdf-btn:hover {
   color: #dcdcdc;
 }
+
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 480px) {
+  .resume-section {
+    width: 90%;
+    margin: 0 5%;
+    padding: 1rem;
+  }
+
+  .owner-name {
+    font-size: 2.5rem;
+  }
+
+  .contact-info {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .download-pdf-btn {
+    font-size: 20px;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .part-title {
+    font-size: 1.5rem;
+    padding-left: 0.3rem;
+  }
+
+  .sub-parts {
+    margin-left: 0;
+  }
+
+  .sub-part-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .sub-part-name {
+    font-size: 1rem;
+  }
+
+  .sub-part-location {
+    font-size: 0.9rem;
+  }
+
+  .sub-part-dates {
+    font-size: 0.8rem;
+    margin-left: 0;
+  }
+
+  .description-list,
+  .description-text {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablet / Larger Phone Responsive Styles */
+@media screen and (max-width: 768px) {
+  .resume-section {
+    width: 85%;
+    margin: 0 7.5%;
+    padding: 1rem;
+  }
+
+  .owner-name {
+    font-size: 3.2rem;
+  }
+
+  .contact-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    font-size: 1rem;
+  }
+
+  .download-pdf-btn {
+    font-size: 22px;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .part-title {
+    font-size: 1.8rem;
+    padding-left: 0.4rem;
+  }
+
+  .sub-parts {
+    margin-left: 0.5rem;
+  }
+
+  .sub-part-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .sub-part-name {
+    font-size: 1.1rem;
+  }
+
+  .sub-part-location {
+    font-size: 0.95rem;
+  }
+
+  .sub-part-dates {
+    font-size: 0.85rem;
+    margin-left: auto;
+  }
+
+  .description-list,
+  .description-text {
+    margin-left: 1rem;
+    font-size: 0.95rem;
+  }
+}
+

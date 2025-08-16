@@ -7,8 +7,8 @@ export const ProjectsProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/project/get-projects")
+  useEffect(() => { 
+    fetch(`${process.env.REACT_APP_API_URL}/api/project/get-projects`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch projects");
         return res.json();

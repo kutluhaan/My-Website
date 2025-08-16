@@ -11,8 +11,8 @@ export default function GetResumes() {
       window.location.href = "/admin/login";
       return;
     }
-
-    fetch("http://127.0.0.1:5000/api/resume/all-resumes", {
+    
+    fetch(`${process.env.REACT_APP_API_URL}/api/resume/all-resumes`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,

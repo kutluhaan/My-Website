@@ -13,7 +13,7 @@ export default function DeleteResume() {
       return;
     }
 
-    fetch("http://localhost:5000/api/resume/all-resumes", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/resume/all-resumes`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ export default function DeleteResume() {
 
     if (!window.confirm("Are you sure you want to delete this resume?")) return;
 
-    fetch(`http://localhost:5000/api/resume/delete/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/resume/delete/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

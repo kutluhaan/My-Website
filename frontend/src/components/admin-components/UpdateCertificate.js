@@ -13,9 +13,8 @@ const UpdateCertificate = () => {
     if (!token) {
       window.location.href = "/admin/login";
       return;
-    }
-
-    fetch(`http://127.0.0.1:5000/api/certificates/certificate/${id}`, {
+    } 
+    fetch(`${process.env.REACT_APP_API_URL}/api/certificates/certificate/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -52,8 +51,7 @@ const UpdateCertificate = () => {
     }
 
     try {
-      const res = await fetch(
-        `http://127.0.0.1:5000/api/certificates/update/${id}`,
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/certificates/update/${id}`,
         {
           method: "PUT",
           headers: {

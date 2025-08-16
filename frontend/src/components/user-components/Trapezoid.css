@@ -102,3 +102,100 @@
   width: 80px;   /* adjust to desired small size */
   height: auto;  /* keep aspect ratio */
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .trapezoid-section {
+    flex-direction: column;
+    justify-content: flex-start;
+    height: auto;
+    padding-bottom: 50px;
+  }
+
+  .trapezoid-content {
+    clip-path: none;
+    flex-direction: column;
+    align-items: center;
+    background: black;
+    padding: 20px;
+  }
+
+  .trapezoid-decrypt-text {
+    position: relative;
+    margin: 20px 0 0 0;
+    text-align: center;
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  .decrypted-text-greeting,
+  .encrypted-text-greeting {
+    font-size: 3rem; /* shrink big greeting */
+  }
+
+  .decrypted-text,
+  .encrypted-text {
+    font-size: 1.5rem; /* smaller for phones */
+  }
+
+  .trapezoid-photo-container {
+    width: 100%;
+    height: auto;
+    clip-path: none;
+    margin-top: 20px;
+  }
+
+  .trapezoid-photo {
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .trapezoid-logo {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 10px auto;
+  }
+
+  .icon-btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2em;
+    margin-top: 50px;
+    max-width: 90%;
+    justify-items: center;
+  }
+
+  .icon-btn {
+    width: 2.5em;
+    height: 2.5em;
+  }
+
+  .icon-btn__icon {
+    width: 1.2em;
+    height: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .decrypted-text-greeting,
+  .encrypted-text-greeting {
+    font-size: 2.2rem;
+  }
+
+  .decrypted-text,
+  .encrypted-text {
+    font-size: 1.2rem;
+  }
+
+  .icon-btns {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 1.5em;
+    margin-top: 30px;
+  }
+
+  .trapezoid-photo {
+    width: 95%;
+  }
+}

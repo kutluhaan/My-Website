@@ -8,7 +8,7 @@ export const CertificatesProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/certificates/all")
+    fetch(`${process.env.REACT_APP_API_URL}/api/certificates/all`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch certificates");
         return res.json();

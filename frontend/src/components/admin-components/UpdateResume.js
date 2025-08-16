@@ -26,7 +26,8 @@ const UpdateResume = () => {
     const fetchResume = async () => {
       try {
         const token = localStorage.getItem("jwtToken");
-        const res = await fetch(`http://127.0.0.1:5000/api/resume/get-resume/${id}`, {
+        
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/resume/get-resume/${id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -71,7 +72,8 @@ const UpdateResume = () => {
 
     try {
       const token = localStorage.getItem("jwtToken");
-      const res = await fetch(`http://127.0.0.1:5000/api/resume/update/${id}`, {
+      
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/resume/update/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

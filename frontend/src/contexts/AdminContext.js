@@ -10,8 +10,9 @@ export const AdminProvider = ({ children }) => {
   useEffect(() => {
     async function fetchAdmin() {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/admin/get-admin");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/get-admin`);
         if (!response.ok) {
+
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();

@@ -33,8 +33,8 @@ const Contact = () => {
     setButtonText("Sending...");
     setButtonColor("#fff"); // neutral while sending
 
-    try {
-      const response = await fetch("http://127.0.0.1:5000/api/mail/send-message", {
+    try { 
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/mail/send-message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
