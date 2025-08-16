@@ -43,3 +43,6 @@ venv.bak/
 Thumbs.db
 
 node_modules/
+
+.env
+.env.*

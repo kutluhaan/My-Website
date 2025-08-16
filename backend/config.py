@@ -2,7 +2,8 @@ import os
 from datetime import timedelta
 from dotenv import load_dotenv
 
-load_dotenv()
+if os.getenv("FLASK_ENV") != "production":
+    load_dotenv()
 
 def _get_db_url():
     url = os.getenv("DATABASE_URL")
@@ -26,3 +27,4 @@ class Config:
 
     # Flask-Limiter
     RATELIMIT_HEADERS_ENABLED = True
+    FLASK_ENV = os.getenv("FLASK_ENV")
