@@ -98,6 +98,7 @@
   text-align: left;
     line-height: 1.8; /* Increase this value to add more space between lines */
 }
+
 /* Mobile Responsive Projects Section */
 @media (max-width: 768px) {
   .projects-section {
@@ -111,30 +112,29 @@
   }
 
   .projects-grid {
-    flex-direction: column; /* stack cards vertically */
+    grid-template-columns: 1fr; /* single column on mobile */
     gap: 20px;
   }
 
   .project-card {
-    flex-direction: column; /* stack image on top of text */
     border-radius: 12px;
   }
 
-  .project-card-carousel {
-    width: 100%; /* make the image full width */
-    margin-bottom: 1rem; /* spacing between image and text */
+  .project-title {
+    font-size: 1.25rem;
   }
 
-  .project-card-text-container {
-    width: 100%;
+  .project-description {
+    font-size: 0.9rem;
   }
 
-  .project-card-title {
-    font-size: 1.5rem; /* smaller title for mobile */
+  .project-tags {
+    gap: 6px;
   }
 
-  .project-card-text {
-    font-size: 0.9rem; /* adjust text size */
+  .project-tag {
+    font-size: 0.75rem;
+    padding: 3px 8px;
   }
 }
 
@@ -149,16 +149,20 @@
     font-size: 1.75rem;
   }
 
-  .project-card-title {
-    font-size: 1.25rem; /* even smaller on very small screens */
+  .project-title {
+    font-size: 1.1rem;
   }
 
-  .project-card-text {
+  .project-description {
     font-size: 0.85rem;
   }
 
-  .project-card-carousel {
-    width: 100%; /* ensure full width images */
-    margin-bottom: 0.75rem;
+  .project-tags {
+    gap: 4px;
+  }
+
+  .project-tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
   }
 }

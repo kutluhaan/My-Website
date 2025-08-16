@@ -69,6 +69,7 @@ function App() {
                   scrollerClassName="scroller"
                 />
                 <AboutMe />
+                <Projects />
                 <TrueFocus
                   sentence="MY RESUME"
                   manualMode={false}
@@ -77,7 +78,7 @@ function App() {
                   animationDuration={2}
                   pauseBetweenAnimations={1}
                 />
-                <Projects />
+                
                 <Resume />
                 <Certificates />
                 <Contact />
