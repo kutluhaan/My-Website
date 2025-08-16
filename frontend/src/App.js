@@ -11,6 +11,7 @@ import AboutMe from "./components/user-components/AboutMe";
 import Resume from "./components/user-components/Resume";
 import Certificates from "./components/user-components/Certificates";
 import Contact from "./components/user-components/Contact";
+import Projects from "./components/user-components/Projects"
 import "./App.css";
 
 // Admin imports
@@ -76,6 +77,7 @@ function App() {
                   animationDuration={2}
                   pauseBetweenAnimations={1}
                 />
+                <Projects />
                 <Resume />
                 <Certificates />
                 <Contact />
