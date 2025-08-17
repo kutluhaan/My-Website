@@ -149,3 +149,59 @@
   user-select: none;
   pointer-events: none;
 }
+
+/* Default (desktop) styles remain unchanged */
+
+/* Default (desktop) styles remain unchanged */
+
+/* Default desktop styles remain untouched */
+
+/* Responsive carousel for mobile */
+@media (max-width: 768px) {
+  .carousel-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  .carousel-track {
+    height: 100% !important;
+  }
+
+  .carousel-item {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 55vh; /* prevent covering too much vertical space */
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* fit image fully inside */
+    background: #000;
+  }
+
+  .carousel-indicators {
+    width: auto;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    aspect-ratio: 4 / 3;
+  }
+
+  .carousel-item {
+    max-height: 45vh;
+  }
+
+  .carousel-item img {
+    object-fit: contain;
+  }
+}
+

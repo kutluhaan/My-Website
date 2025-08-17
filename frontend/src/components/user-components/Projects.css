@@ -98,71 +98,65 @@
   text-align: left;
     line-height: 1.8; /* Increase this value to add more space between lines */
 }
-
 /* Mobile Responsive Projects Section */
 @media (max-width: 768px) {
   .projects-section {
-    padding: 40px 16px;
-    gap: 30px;
-  }
-
-  .projects-section h2 {
-    font-size: 2rem;
-    margin-bottom: 16px;
+    padding: 20px 10px;
+    overflow-x: hidden; /* prevent horizontal scroll */
   }
 
   .projects-grid {
-    grid-template-columns: 1fr; /* single column on mobile */
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .project-card-star-border {
+    width: 100% !important; /* force border wrapper to fit screen */
+    max-width: 95vw !important;
+    box-sizing: border-box;
   }
 
   .project-card {
-    border-radius: 12px;
+    flex-direction: column;
+    width: 100% !important;
+    max-width: 95vw !important; /* keep within screen */
+    border-radius: 10px;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    margin: 0 auto; /* center the card */
   }
 
-  .project-title {
-    font-size: 1.25rem;
+  .project-card-carousel {
+    width: 100% !important;
+    margin-bottom: 1rem;
   }
 
-  .project-description {
+  .project-card-title {
+    font-size: 1.2rem;
+    width: 100%;
+    margin: 0.5rem 0;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  .project-card-text {
+    width: 100%;
+    padding: 0.5rem;
     font-size: 0.9rem;
-  }
-
-  .project-tags {
-    gap: 6px;
-  }
-
-  .project-tag {
-    font-size: 0.75rem;
-    padding: 3px 8px;
+    line-height: 1.5;
+    text-align: left;
+    box-sizing: border-box;
   }
 }
 
-/* Extra small devices (phones) */
 @media (max-width: 480px) {
-  .projects-section {
-    padding: 30px 12px;
-    gap: 20px;
+  .project-card-title {
+    font-size: 1rem;
   }
 
-  .projects-section h2 {
-    font-size: 1.75rem;
-  }
-
-  .project-title {
-    font-size: 1.1rem;
-  }
-
-  .project-description {
-    font-size: 0.85rem;
-  }
-
-  .project-tags {
-    gap: 4px;
-  }
-
-  .project-tag {
-    font-size: 0.7rem;
-    padding: 2px 6px;
+  .project-card-text {
+    font-size: 0.8rem;
+    padding: 0.4rem;
   }
 }
