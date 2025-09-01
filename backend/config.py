@@ -1,6 +1,7 @@
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+import certifi
 
 if os.getenv("FLASK_ENV") != "production":
     load_dotenv()
@@ -13,6 +14,9 @@ def _get_db_url():
         url = url.replace("postgres://", "postgresql://", 1)
     if "sslmode" not in url and "localhost" not in url and "127.0.0.1" not in url:
         url = url + "?sslmode=require"
+    if "sslrootcert" not in url:
+        url += f"&sslrootcert={certifi.where()}"    
+    
     return url
 
 class Config:

@@ -21,7 +21,7 @@ def register():
     spotify_url = data.get("spotify_url")
 
     # Required fields check
-    if not email or not password:
+    if not email or not password or not profile_photo_url:
         return jsonify({"msg": "email, password, about, and profile_photo_url are required"}), 400
 
     # Check if user already exists
