@@ -131,16 +131,19 @@ def delete_resume_part(id):
 def add_resume_subpart(part_id):
     admin_id = get_jwt_identity()
     part = ResumePart.query.get_or_404(part_id)
-
-    if part.resume.admin_id != admin_id:
-        return jsonify({"msg": "Unauthorized"}), 403
     
     data = request.get_json() or {}
+    
     subpart = ResumeSubPart(
         part_id=part.id,
         name=data.get("name"),
-        bullet_points=data.get("bullet_points", [])  # liste
+        location=data.get("location"),
+        description=data.get("description"),  # JSON expected
+        start_date=data.get("start_date"),
+        end_date=data.get("end_date"),
+        order_id=data.get("order_id")
     )
+    
     db.session.add(subpart)
     db.session.commit()
     return jsonify({"msg": "SubPart added", "id": subpart.id}), 201
@@ -152,14 +155,18 @@ def update_resume_subpart(id):
     admin_id = get_jwt_identity()
     subpart = ResumeSubPart.query.get_or_404(id)
 
-    if subpart.part.resume.admin_id != admin_id:
-        return jsonify({"msg": "Unauthorized"}), 403
-    
     data = request.get_json() or {}
+
     subpart.name = data.get("name", subpart.name)
-    subpart.bullet_points = data.get("bullet_points", subpart.bullet_points)
+    subpart.location = data.get("location", subpart.location)
+    subpart.description = data.get("description", subpart.description)
+    subpart.start_date = data.get("start_date", subpart.start_date)
+    subpart.end_date = data.get("end_date", subpart.end_date)
+    subpart.order_id = data.get("order_id", subpart.order_id)
+
     db.session.commit()
     return jsonify({"msg": "SubPart updated"}), 200
+
 
 # Delete SubPart
 @bp.route("/subparts/delete/<int:id>", methods=["DELETE"])
@@ -167,10 +174,6 @@ def update_resume_subpart(id):
 def delete_resume_subpart(id):
     admin_id = get_jwt_identity()
     subpart = ResumeSubPart.query.get_or_404(id)
-
-    if subpart.part.resume.admin_id != admin_id:
-        return jsonify({"msg": "Unauthorized"}), 403
-    
     db.session.delete(subpart)
     db.session.commit()
     return jsonify({"msg": "SubPart deleted"}), 200

@@ -56,24 +56,39 @@ const Resume = () => {
             .sort((a, b) => a.order_id - b.order_id)
             .map((part) => (
                 
-              <section key={part.id} className="resume-part">
-                <h2 className="part-title">{part.title}</h2>
-                <div className="sub-parts">
-                  {part.sub_parts
-                  .sort((a, b) => a.order_id - b.order_id) // <-- sort by order_id
+            <section key={part.id} className="resume-part">
+              <h2 className="part-title">{part.title}</h2>
+              <div className="sub-parts">
+                {part.sub_parts
+                  .sort((a, b) => {
+                    const aDate = a.start_date || "";
+                    const bDate = b.start_date || "";
+
+                    // If both missing → keep original order
+                    if (!aDate && !bDate) return 0;
+
+                    // If only one is missing → put the missing one last
+                    if (!aDate) return 1;
+                    if (!bDate) return -1;
+
+                    // Compare YYYY-MM strings (safe lexicographically)
+                    return bDate.localeCompare(aDate); // descending (recent → old)
+                  })
                   .map((sub) => (
                     <article key={sub.id} className="sub-part">
                       <header className="sub-part-header">
                         <h3 className="sub-part-name">{sub.name}</h3>
-                        {sub.location && <span className="sub-part-location">{sub.location}</span>}
+                        {sub.location && (
+                          <span className="sub-part-location">{sub.location}</span>
+                        )}
                         {(sub.start_date || sub.end_date) && (
                           <time className="sub-part-dates">
                             {sub.start_date}
                             {sub.end_date ? ` - ${sub.end_date}` : ""}
                           </time>
                         )}
-
                       </header>
+
                       {sub.description && Array.isArray(sub.description) && (
                         <ul className="description-list">
                           {sub.description.map((desc, idx) => (
@@ -81,13 +96,15 @@ const Resume = () => {
                           ))}
                         </ul>
                       )}
+
                       {sub.description && typeof sub.description === "string" && (
                         <p className="description-text">{sub.description}</p>
                       )}
                     </article>
                   ))}
-                </div>
-              </section>
+              </div>
+            </section>
+
             ))}
         </div>
       </section>
