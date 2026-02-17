@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
-import { GridBackground } from '@/components/GridBackground';
+import { BackgroundOrchestrator } from '@/components/BackgroundOrchestrator';
 import { Nav } from '@/components/Nav';
 import './globals.css';
 
@@ -36,7 +36,9 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <GridBackground />
+        <BackgroundOrchestrator 
+          sectionIds={['hero', 'experience', 'tech-stack', 'projects', 'cta', 'contact']}
+        />
         <Nav />
         <main id="main-content" tabIndex={-1}>{children}</main>
       </body>
