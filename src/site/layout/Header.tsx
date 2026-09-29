@@ -54,19 +54,19 @@ export function Header() {
       className={cn(
         'no-print fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-300',
         scrolled || open
-          ? 'border-fg/10 bg-bg/90 backdrop-blur-xl'
+          ? 'border-fg/[0.08] bg-surface/85 shadow-[0_8px_30px_-18px_rgb(30_41_66/0.25)] backdrop-blur-xl'
           : 'border-transparent bg-transparent',
       )}
     >
       <div className="container-page flex h-16 items-center justify-between gap-4">
-        <a href="#top" className="flex items-center gap-3 rounded-full" aria-label={`${profile.name}, back to top`}>
+        <a href="#top" className="flex items-center gap-3 rounded-full">
           <span
             aria-hidden
-            className="grid h-9 w-9 place-items-center rounded-full bg-fg font-serif text-xl leading-none text-bg"
+            className="grid h-9 w-9 place-items-center rounded-full bg-accent font-serif text-xl leading-none text-accent-fg shadow-[0_6px_16px_-6px_rgb(var(--accent)/0.7)]"
           >
             K
           </span>
-          <span className="hidden text-[15px] font-medium tracking-tight sm:inline">{profile.name}</span>
+          <span className="sr-only text-[15px] font-medium tracking-tight sm:not-sr-only">{profile.name}</span>
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-0.5 md:flex">
@@ -96,15 +96,14 @@ export function Header() {
           <button
             type="button"
             onClick={openPalette}
-            aria-label="Search sections and projects"
             className={cn(
               iconButton,
               'lg:w-auto lg:gap-2 lg:px-3.5 lg:font-mono lg:text-xs',
             )}
           >
             <Search className="h-[17px] w-[17px]" aria-hidden />
-            <span className="hidden lg:inline">Search</span>
-            <kbd className="hidden rounded border border-fg/15 px-1.5 py-0.5 text-[10px] leading-none text-faint lg:inline">
+            <span className="sr-only lg:not-sr-only">Search</span>
+            <kbd aria-hidden className="hidden rounded border border-fg/15 px-1.5 py-0.5 text-[10px] leading-none text-faint lg:inline">
               ⌘K
             </kbd>
           </button>

@@ -68,11 +68,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F6F4EF' },
-    { media: '(prefers-color-scheme: dark)', color: '#0B0D0F' },
-  ],
-  colorScheme: 'light dark',
+  themeColor: '#FAFBFC',
+  colorScheme: 'light',
 };
 
 // Runs before first paint: restores a saved theme and arms scroll-reveal.

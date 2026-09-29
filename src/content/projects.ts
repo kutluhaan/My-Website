@@ -1,4 +1,7 @@
+import type { CoverKind } from './covers';
+
 export type ProjectKind = 'ai' | 'backend' | 'cloud' | 'data' | 'research';
+export type Tone = 'coral' | 'sun' | 'mint' | 'sky' | 'lilac' | 'pink';
 
 export interface Metric {
   value: string;
@@ -15,6 +18,8 @@ export interface FlowStep {
 
 export interface Project {
   id: string;
+  cover: CoverKind;
+  tone: Tone;
   title: string;
   context: string;
   period: string;
@@ -38,6 +43,8 @@ export const kindLabels: Record<ProjectKind, string> = {
 export const projects: Project[] = [
   {
     id: 'trading',
+    cover: 'trading',
+    tone: 'mint',
     title: 'Agentic Algorithmic Trading System on a Live Brokerage',
     context: 'Graduation project · team project, nearly all components built by me',
     period: 'Sep 2024 — Jun 2025',
@@ -95,6 +102,8 @@ export const projects: Project[] = [
   },
   {
     id: 'cloud',
+    cover: 'cloud',
+    tone: 'sky',
     title: 'Cloud-Native Distributed To-Do Platform',
     context: 'Cloud Computing course · team project, active in development, deployment, DevOps and testing',
     period: 'Feb 2025 — Jun 2025',
@@ -138,6 +147,8 @@ export const projects: Project[] = [
   },
   {
     id: 'wellmarkt',
+    cover: 'commerce',
+    tone: 'sun',
     title: 'Wellmarkt: Event-Driven E-Commerce Platform',
     context: 'Software Engineering course · 5–6 person team, Jira and Scrum',
     period: 'Sep 2024 — Jan 2025',
@@ -179,6 +190,8 @@ export const projects: Project[] = [
   },
   {
     id: 'banking',
+    cover: 'banking',
+    tone: 'sky',
     title: 'Banking System Database and Concurrency Control',
     context: 'Database Systems course',
     period: 'Sep 2023 — Jan 2024',
@@ -195,6 +208,8 @@ export const projects: Project[] = [
   },
   {
     id: 'cpp',
+    cover: 'dsa',
+    tone: 'lilac',
     title: 'Generic Data Structures and Recursive Algorithms in C++',
     context: 'CS 201, 204, 300 and 301 course sequence',
     period: '2022 — 2024',
@@ -214,6 +229,8 @@ export const projects: Project[] = [
   },
   {
     id: 'expense',
+    cover: 'expense',
+    tone: 'coral',
     title: 'Expense Tracker: Mobile App and Backend',
     context: 'Mobile Application Development course · backend and Android UI built by me',
     period: 'Sep 2023 — Jan 2024',
@@ -230,6 +247,8 @@ export const projects: Project[] = [
   },
   {
     id: 'sir',
+    cover: 'sir',
+    tone: 'mint',
     title: "SIR Epidemic Simulation on Istanbul’s Rail Network",
     context: 'Network Science course · solo project',
     period: 'Feb 2025 — Jun 2025',
@@ -246,6 +265,8 @@ export const projects: Project[] = [
   },
   {
     id: 'turkey',
+    cover: 'turkey',
+    tone: 'sun',
     title: 'Analyzing Turkey: Socio-Economic Data Dashboard',
     context: 'Data Science course · led a 3–4 person team, hands-on in every stage',
     period: 'Feb 2023 — May 2023',
@@ -262,6 +283,8 @@ export const projects: Project[] = [
   },
   {
     id: 'pure-attention',
+    cover: 'attention',
+    tone: 'pink',
     title: 'Undergraduate Research: Attention Detection in Mixed Reality',
     context: 'Sabancı PURE (Program for Undergraduate Research), certified',
     period: 'Feb 2023 — May 2023',
@@ -275,6 +298,8 @@ export const projects: Project[] = [
   },
   {
     id: 'pure-bio',
+    cover: 'bio',
+    tone: 'lilac',
     title: 'Undergraduate Research: Biosensors',
     context: 'Sabancı PURE (Program for Undergraduate Research), certified',
     period: 'Oct 2022 — Dec 2022',
@@ -311,6 +336,7 @@ export const otherProjects = [
 ];
 
 export const openSource = {
+  cover: "opensource" as const,
   title: 'Upstream contributions to SAGE (opaca-llm-ui)',
   body: "While building a Slack-to-SAGE integration at Semper Tech, I moved the missing pieces upstream into GT-ARC’s open-source SAGE chat UI: full-stack changes across the Python backend and Vue frontend, with multiple merged pull requests.",
   areas: [

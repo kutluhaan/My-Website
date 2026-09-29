@@ -1,5 +1,14 @@
+import type { CoverKind } from './covers';
+
+export interface Stat {
+  value: string;
+  label: string;
+}
+
 export interface ExperienceTab {
   id: string;
+  cover: CoverKind;
+  stats: Stat[];
   label: string;
   kicker: string;
   summary: string;
@@ -22,6 +31,11 @@ export interface Experience {
   place: string;
   period: string;
   blurb: string;
+  /** Scenic vignette for where it happened */
+  scene: CoverKind;
+  /** Illustration of the work (entries without tabs) */
+  cover?: CoverKind;
+  stats?: Stat[];
   tabs?: ExperienceTab[];
   bullets?: string[];
   stack?: string[];
@@ -35,11 +49,19 @@ export const experience: Experience[] = [
     org: 'Semper Tech',
     place: 'Istanbul, Türkiye',
     period: 'Sep 2025 — Present',
+    scene: 'istanbul',
     blurb:
       'Four-person team shipping agentic AI systems for customers including BEKO (Arçelik) and Bürotime. I also take on Scrum Master responsibilities for the team.',
     tabs: [
       {
         id: 'beko',
+        cover: 'beko',
+        stats: [
+          { value: '6+', label: 'agent tools in production' },
+          { value: '98%', label: 'tool-calling accuracy' },
+          { value: '97%', label: 'RAG retrieval accuracy' },
+          { value: '10k+', label: 'concurrent users under 2 s' },
+        ],
         label: 'BEKO',
         kicker: 'Agentic AI and RAG in production',
         summary:
@@ -95,6 +117,13 @@ export const experience: Experience[] = [
       },
       {
         id: 'burotime',
+        cover: 'burotime',
+        stats: [
+          { value: '5+', label: 'LangGraph agents' },
+          { value: '97%', label: 'correct agent selection' },
+          { value: '98%', label: 'correct tool calling' },
+          { value: '~12 s', label: 'on complex parallel requests' },
+        ],
         label: 'Bürotime',
         kicker: 'Multi-agent orchestration',
         summary:
@@ -122,6 +151,13 @@ export const experience: Experience[] = [
       },
       {
         id: 'sage',
+        cover: 'sage',
+        stats: [
+          { value: '20+', label: 'containerized agent tools' },
+          { value: '90%+', label: 'correct tool selection' },
+          { value: '100+', label: 'query test set' },
+          { value: '< 4 s', label: 'voice reply, end to end' },
+        ],
         label: 'OPACA / SAGE',
         kicker: 'Self-hosted agent platform, voice and Slack',
         summary:
@@ -170,6 +206,13 @@ export const experience: Experience[] = [
     org: 'GT-ARC Gemeinnützige GmbH',
     place: 'Berlin, Germany',
     period: 'Jul 2024 — Sep 2024',
+    scene: 'berlin',
+    cover: 'video',
+    stats: [
+      { value: '−53%', label: 'generation latency, 5.3 s → 2.5 s' },
+      { value: '+35%', label: 'response coherence (human rated)' },
+      { value: '7.29', label: 'SyncNet confidence' },
+    ],
     blurb:
       'Research institute affiliated with TU Berlin DAI-Labor, where OPACA and SAGE are developed.',
     bullets: [
@@ -195,6 +238,7 @@ export const experience: Experience[] = [
     org: 'Sabancı University',
     place: 'Istanbul, Türkiye',
     period: 'Feb 2023 — Jun 2023',
+    scene: 'campus',
     blurb: 'Introduction to Computing.',
     bullets: [
       'Supported students in C++ assignments as an assistant tutor for the introductory programming course, strengthening communication and mentoring skills.',

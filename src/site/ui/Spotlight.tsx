@@ -1,11 +1,10 @@
-'use client';
-
-import type { ElementType, ReactNode, PointerEvent } from 'react';
+import type { ElementType, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 /**
- * Card wrapper that feeds the pointer position to CSS (--mx / --my) so the
- * `.spotlight` gradient follows the cursor. Purely decorative; no-op on touch.
+ * Card wrapper with the cursor-follow highlight. The pointer tracking lives in
+ * the shared page effects (it looks for `.spotlight`), so this stays a plain
+ * server component.
  */
 export function Spotlight({
   as: Tag = 'div',
@@ -18,14 +17,8 @@ export function Spotlight({
   children: ReactNode;
   id?: string;
 }) {
-  const onMove = (e: PointerEvent<HTMLElement>) => {
-    if (e.pointerType === 'touch') return;
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
-    e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
-  };
   return (
-    <Tag id={id} className={cn('card spotlight', className)} onPointerMove={onMove}>
+    <Tag id={id} className={cn('card spotlight', className)}>
       {children}
     </Tag>
   );

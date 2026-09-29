@@ -3,68 +3,61 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   Design tokens
-   Palette: warm paper / ink, one accent (vermilion). Every token is an
-   "R G B" triplet so Tailwind opacity modifiers work (bg-fg/10).
-   Contrast (WCAG 2.2): body text >= 14:1, muted >= 5.9:1, faint >= 4.9:1,
-   accent text >= 4.6:1 on both themes.
+   Design tokens: airy white / soft grey, slate ink (never black), one blue
+   accent, and a pastel set (coral, sun, mint, sky, lilac, pink) that colours
+   the illustrations. Every token is an "R G B" triplet so Tailwind opacity
+   modifiers work (bg-fg/10, fill-mint/30).
+   Light is the default on purpose; dark only applies when the visitor picks it.
+   Contrast (WCAG 2.2): body >= 14:1, muted >= 5.4:1, faint >= 4.5:1,
+   accent text >= 4.6:1 (light) / 5.6:1 (dark).
    ========================================================================== */
 @layer base {
   :root {
     color-scheme: light;
-    --bg: 246 244 239;
-    --surface: 251 250 247;
-    --surface-2: 255 255 255;
-    --surface-3: 236 233 226;
-    --fg: 22 24 27;
-    --muted: 88 94 102;
-    --faint: 102 107 115;
-    --accent: 186 53 10;
+    --bg: 250 251 252;
+    --surface: 255 255 255;
+    --surface-2: 244 246 250;
+    --surface-3: 233 237 245;
+    --fg: 30 41 66;
+    --muted: 88 100 125;
+    --faint: 96 108 133;
+    --accent: 61 90 254;
     --accent-fg: 255 255 255;
-    --ok: 14 122 80;
-    --grain: 0.055;
-    --glow: 0.1;
-    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  }
+    --ok: 14 140 96;
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']) {
-      color-scheme: dark;
-      --bg: 11 13 15;
-      --surface: 17 20 23;
-      --surface-2: 23 27 31;
-      --surface-3: 30 35 40;
-      --fg: 236 234 228;
-      --muted: 163 168 174;
-      --faint: 138 144 151;
-      --accent: 255 107 61;
-      --accent-fg: 11 13 15;
-      --ok: 94 214 160;
-      --grain: 0.045;
-      --glow: 0.2;
-    }
+    --coral: 255 138 101;
+    --sun: 255 200 87;
+    --mint: 94 211 176;
+    --sky: 110 198 255;
+    --lilac: 179 157 255;
+    --pink: 255 159 184;
+
+    --shadow-1: 0 1px 2px rgb(30 41 66 / 0.04), 0 8px 24px -12px rgb(30 41 66 / 0.14);
+    --shadow-2: 0 2px 4px rgb(30 41 66 / 0.04), 0 24px 60px -24px rgb(30 41 66 / 0.22);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   :root[data-theme='dark'] {
     color-scheme: dark;
-    --bg: 11 13 15;
-    --surface: 17 20 23;
-    --surface-2: 23 27 31;
-    --surface-3: 30 35 40;
-    --fg: 236 234 228;
-    --muted: 163 168 174;
-    --faint: 138 144 151;
-    --accent: 255 107 61;
-    --accent-fg: 11 13 15;
+    --bg: 20 26 43;
+    --surface: 27 35 56;
+    --surface-2: 34 44 69;
+    --surface-3: 44 56 86;
+    --fg: 232 237 247;
+    --muted: 165 176 199;
+    --faint: 137 149 175;
+    --accent: 140 160 255;
+    --accent-fg: 20 26 43;
     --ok: 94 214 160;
-    --grain: 0.045;
-    --glow: 0.2;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.2), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+    --shadow-2: 0 2px 4px rgb(0 0 0 / 0.2), 0 24px 60px -24px rgb(0 0 0 / 0.6);
   }
 
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5.5rem;
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
   }
 
   body {
@@ -75,17 +68,6 @@
     overflow-x: clip;
   }
 
-  /* Film grain: adds warmth and stops big flat areas from banding */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 90;
-    pointer-events: none;
-    opacity: var(--grain);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
   h1,
   h2,
   h3,
@@ -94,7 +76,7 @@
   }
 
   ::selection {
-    background: rgb(var(--accent) / 0.28);
+    background: rgb(var(--accent) / 0.22);
   }
 
   :focus-visible {
@@ -108,7 +90,7 @@
     height: 10px;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgb(var(--fg) / 0.18);
+    background: rgb(var(--fg) / 0.16);
     border-radius: 999px;
     border: 3px solid rgb(var(--bg));
   }
@@ -145,7 +127,7 @@
 
   .display {
     @apply font-serif font-normal;
-    font-size: clamp(4.75rem, 1.2rem + 9.2vw, 9.25rem);
+    font-size: clamp(4.5rem, 1.2rem + 9.2vw, 9.25rem);
     line-height: 0.9;
     letter-spacing: -0.028em;
   }
@@ -174,13 +156,35 @@
     font-variant-numeric: tabular-nums lining-nums;
   }
 
-  /* --- surfaces --------------------------------------------------------- */
-  .card {
-    @apply rounded-2xl border border-fg/10 bg-surface;
-    transition: border-color 0.3s var(--ease-out), background-color 0.3s var(--ease-out);
+  /* Highlighter behind an italic word: the one splash of sunshine in the type */
+  .mark {
+    background: linear-gradient(transparent 62%, rgb(var(--sun) / 0.55) 62%, rgb(var(--sun) / 0.55) 92%, transparent 92%);
+    padding-inline: 0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .display .mark {
+    background: linear-gradient(transparent 79%, rgb(var(--sun) / 0.65) 79%, rgb(var(--sun) / 0.65) 93%, transparent 93%);
+  }
+  :root[data-theme='dark'] .mark {
+    background: linear-gradient(transparent 62%, rgb(var(--sun) / 0.28) 62%, rgb(var(--sun) / 0.28) 92%, transparent 92%);
   }
 
-  /* Cursor-follow highlight (set --mx/--my from JS). Falls back to plain card. */
+  /* --- surfaces --------------------------------------------------------- */
+  .card {
+    @apply rounded-[1.75rem] border border-fg/[0.08] bg-surface;
+    box-shadow: var(--shadow-1);
+    transition: border-color 0.3s var(--ease-out), box-shadow 0.4s var(--ease-out),
+      transform 0.4s var(--ease-out);
+  }
+
+  .lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-2);
+    border-color: rgb(var(--fg) / 0.14);
+  }
+
+  /* Cursor-follow highlight (set --mx/--my from JS). */
   .spotlight {
     position: relative;
     isolation: isolate;
@@ -194,8 +198,8 @@
     opacity: 0;
     transition: opacity 0.4s var(--ease-out);
     background: radial-gradient(
-      420px circle at var(--mx, 50%) var(--my, 50%),
-      rgb(var(--accent) / 0.16),
+      460px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--accent) / 0.1),
       transparent 60%
     );
     pointer-events: none;
@@ -203,15 +207,12 @@
   .spotlight:hover::before {
     opacity: 1;
   }
-  .spotlight:hover {
-    border-color: rgb(var(--fg) / 0.2);
-  }
 
   .chip {
-    @apply inline-flex items-center rounded-md border border-fg/10 bg-fg/[0.04] font-mono text-muted;
+    @apply inline-flex items-center rounded-full border border-fg/[0.09] bg-surface font-mono text-muted;
     font-size: 0.75rem;
     line-height: 1;
-    padding: 0.4rem 0.55rem;
+    padding: 0.45rem 0.7rem;
     white-space: nowrap;
   }
 
@@ -223,26 +224,30 @@
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full font-medium;
     min-height: 3rem;
-    padding: 0 1.35rem;
+    padding: 0 1.4rem;
     font-size: 0.975rem;
     line-height: 1;
     transition: transform 0.3s var(--ease-out), background-color 0.25s, border-color 0.25s,
-      color 0.25s;
+      color 0.25s, box-shadow 0.3s var(--ease-out);
   }
   .btn:active {
     transform: scale(0.97);
   }
   .btn-primary {
     @apply bg-accent text-accent-fg;
+    box-shadow: 0 10px 24px -10px rgb(var(--accent) / 0.65);
   }
   .btn-primary:hover {
-    background: rgb(var(--accent) / 0.88);
+    box-shadow: 0 14px 30px -10px rgb(var(--accent) / 0.8);
+    transform: translateY(-2px);
   }
   .btn-secondary {
-    @apply border border-fg/20 bg-surface-2/60 text-fg;
+    @apply border border-fg/[0.14] bg-surface text-fg;
+    box-shadow: var(--shadow-1);
   }
   .btn-secondary:hover {
-    @apply border-fg/40 bg-surface-2;
+    @apply border-fg/30;
+    transform: translateY(-2px);
   }
   .btn .arrow {
     transition: transform 0.3s var(--ease-out);
@@ -253,12 +258,11 @@
 
   .link {
     @apply text-fg;
-    background: linear-gradient(rgb(var(--accent)), rgb(var(--accent))) 0 100% / 0 1px no-repeat;
-    transition: background-size 0.35s var(--ease-out), color 0.2s;
     text-decoration: underline;
     text-decoration-color: rgb(var(--fg) / 0.3);
     text-underline-offset: 0.28em;
     text-decoration-thickness: 1px;
+    transition: color 0.2s, text-decoration-color 0.2s;
   }
   .link:hover {
     @apply text-accent;
@@ -284,14 +288,6 @@
   .theme-sun {
     display: none;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']) .theme-sun {
-      display: block;
-    }
-    :root:not([data-theme='light']) .theme-moon {
-      display: none;
-    }
-  }
   :root[data-theme='dark'] .theme-sun {
     display: block;
   }
@@ -300,27 +296,67 @@
   }
 }
 
+/* Skip rendering work for sections that are far off-screen (big win on phones) */
+main > section:not(#top) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
+}
+
 /* ==========================================================================
    Backgrounds
    ========================================================================== */
-.hero-grid {
-  background-image: linear-gradient(rgb(var(--fg) / 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--fg) / 0.055) 1px, transparent 1px);
-  background-size: 72px 72px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 30% 30%, #000 10%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 60% at 30% 30%, #000 10%, transparent 75%);
+.dots {
+  background-image: radial-gradient(rgb(var(--fg) / 0.13) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 30%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 30%, #000 20%, transparent 78%);
 }
 
-.hero-glow {
-  background: radial-gradient(
-    closest-side,
-    rgb(var(--accent) / var(--glow)),
-    transparent
-  );
+/* Slow drifting colour blobs behind the hero: gradients only, no blur filter */
+.mesh i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  will-change: transform;
+}
+.mesh .m1 {
+  left: -14rem;
+  top: -16rem;
+  width: 44rem;
+  height: 44rem;
+  background: radial-gradient(closest-side, rgb(var(--sky) / 0.42), transparent);
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+.mesh .m2 {
+  right: -12rem;
+  top: -8rem;
+  width: 42rem;
+  height: 42rem;
+  background: radial-gradient(closest-side, rgb(var(--lilac) / 0.4), transparent);
+  animation: drift-b 26s ease-in-out infinite alternate;
+}
+.mesh .m3 {
+  right: 12%;
+  bottom: -18rem;
+  width: 40rem;
+  height: 40rem;
+  background: radial-gradient(closest-side, rgb(var(--mint) / 0.3), transparent);
+  animation: drift-a 30s ease-in-out infinite alternate-reverse;
+}
+.mesh .m4 {
+  left: 30%;
+  top: 8%;
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(closest-side, rgb(var(--sun) / 0.32), transparent);
+  animation: drift-b 24s ease-in-out infinite alternate;
+}
+:root[data-theme='dark'] .mesh i {
+  opacity: 0.55;
 }
 
 /* ==========================================================================
-   Motion (all of it transform/opacity only, all of it honours reduced-motion)
+   Motion (transform / opacity only; all of it honours reduced motion)
    ========================================================================== */
 @keyframes rise {
   from {
@@ -332,7 +368,6 @@
     transform: none;
   }
 }
-
 @keyframes mask-up {
   from {
     transform: translateY(105%);
@@ -341,23 +376,52 @@
     transform: none;
   }
 }
-
-@keyframes fade {
+@keyframes pop-in {
   from {
     opacity: 0;
+    transform: scale(0.85) translateY(10px);
   }
   to {
     opacity: 1;
+    transform: none;
   }
 }
-
+@keyframes drift-a {
+  to {
+    transform: translate3d(6rem, 4rem, 0) scale(1.15);
+  }
+}
+@keyframes drift-b {
+  to {
+    transform: translate3d(-5rem, 5rem, 0) scale(0.92);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(calc(var(--fy, 10px) * -1)) rotate(calc(var(--r, 0deg) + 0.6deg));
+  }
+}
 @keyframes pulse-dot {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgb(var(--ok) / 0.55);
+    box-shadow: 0 0 0 0 rgb(var(--ok) / 0.5);
   }
   50% {
     box-shadow: 0 0 0 6px rgb(var(--ok) / 0);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -365,7 +429,6 @@
   animation: rise 0.9s var(--ease-out) both;
   animation-delay: var(--d, 0ms);
 }
-
 .mask-line {
   display: block;
   overflow: hidden;
@@ -377,26 +440,73 @@
   animation: mask-up 1.1s var(--ease-out) both;
   animation-delay: var(--d, 0ms);
 }
-
 .pulse-dot {
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
-
 .tab-panel {
   animation: rise 0.45s var(--ease-out) both;
+}
+.floaty {
+  animation: float var(--dur, 7s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+/* Parallax layer: JS feeds --px / --py in [-1, 1]; --depth is in pixels */
+.px {
+  transform: translate3d(calc(var(--px, 0) * var(--depth, 0) * 1px), calc(var(--py, 0) * var(--depth, 0) * 1px), 0);
+  transition: transform 0.6s var(--ease-out);
+  will-change: transform;
+}
+
+/* Pointer tilt for covers */
+.tilt {
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.5s var(--ease-out);
+  will-change: transform;
 }
 
 /* Scroll reveal: only armed once the inline script adds .js to <html>, so
    no-JS visitors and crawlers always get the content. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transform: translateY(22px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
   transition-delay: var(--d, 0ms);
+}
+.js [data-reveal='scale'] {
+  transform: scale(0.94);
+}
+.js [data-reveal='left'] {
+  transform: translateX(-28px);
+}
+.js [data-reveal='right'] {
+  transform: translateX(28px);
+}
+@media (max-width: 1023px) {
+  .js [data-reveal='left'],
+  .js [data-reveal='right'] {
+    transform: translateY(22px);
+  }
 }
 .js [data-reveal][data-in] {
   opacity: 1;
   transform: none;
+}
+
+/* Marquee */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--speed, 48s) linear infinite;
+}
+.marquee-wrap:hover .marquee {
+  animation-play-state: paused;
+}
+
+/* Timeline rail that draws itself as you scroll (JS sets --tl from 0 to 1) */
+.rail {
+  transform-origin: top;
+  transform: scaleY(var(--tl, 0));
 }
 
 /* Count-up for the hero numbers, pure CSS (no hydration mismatch). */
@@ -419,35 +529,285 @@
   content: counter(n);
 }
 
-/* Agent-loop illustration ---------------------------------------------- */
-@keyframes trace-on {
-  0% {
+/* ==========================================================================
+   Illustrations (inline SVG). Everything animated is tagged with .a-* and
+   paused while the illustration is off-screen ([data-live] without
+   [data-active]).
+   ========================================================================== */
+svg .tb {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+svg .tb-b {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+svg .tb-l {
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+
+@keyframes a-pop {
+  0%,
+  8% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  16%,
+  86% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+@keyframes a-fade {
+  0%,
+  10% {
     opacity: 0;
   }
-  3%,
-  12% {
+  20%,
+  84% {
     opacity: 1;
   }
-  17%,
+  94%,
   100% {
     opacity: 0;
   }
 }
-@keyframes dash {
+@keyframes a-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  55%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes a-dash {
   to {
     stroke-dashoffset: -24;
   }
 }
-.g-trace {
-  opacity: 0;
-  stroke-dasharray: 5 7;
-  animation: trace-on 9s linear infinite, dash 1s linear infinite;
-  animation-delay: var(--d, 0s), 0s;
+@keyframes a-wave {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
 }
-.g-glow {
-  opacity: 0;
-  animation: trace-on 9s linear infinite;
+@keyframes a-grow-y {
+  0%,
+  8% {
+    transform: scaleY(0);
+  }
+  35%,
+  88% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
+  }
+}
+@keyframes a-grow-x {
+  0%,
+  8% {
+    transform: scaleX(0);
+  }
+  35%,
+  88% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+@keyframes a-blink {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes a-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes a-drift {
+  from {
+    transform: translateX(-14px);
+  }
+  to {
+    transform: translateX(14px);
+  }
+}
+@keyframes a-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes a-sir {
+  0%,
+  12% {
+    fill: rgb(var(--sky));
+  }
+  24%,
+  52% {
+    fill: rgb(var(--coral));
+  }
+  64%,
+  100% {
+    fill: rgb(var(--mint));
+  }
+}
+@keyframes a-type {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+@keyframes a-move-x {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--dx, 60px));
+    opacity: 0;
+  }
+}
+@keyframes a-eye {
+  0%,
+  20%,
+  100% {
+    transform: translateX(-4px);
+  }
+  40%,
+  60% {
+    transform: translateX(5px);
+  }
+}
+@keyframes fly {
+  0% {
+    transform: translate(-30px, 26px) rotate(-8deg);
+  }
+  50% {
+    transform: translate(14px, -16px) rotate(6deg);
+  }
+  100% {
+    transform: translate(-30px, 26px) rotate(-8deg);
+  }
+}
+
+.a-pop {
+  animation: a-pop var(--t, 8s) ease-in-out infinite;
   animation-delay: var(--d, 0s);
+  opacity: 0;
+}
+.a-fade {
+  animation: a-fade var(--t, 8s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+  opacity: 0;
+}
+.a-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: a-draw var(--t, 8s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-dash {
+  stroke-dasharray: 5 7;
+  animation: a-dash 1.2s linear infinite;
+}
+.a-wave {
+  animation: a-wave var(--t, 1.1s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-grow-y {
+  animation: a-grow-y var(--t, 8s) cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-grow-x {
+  animation: a-grow-x var(--t, 8s) cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-blink {
+  animation: a-blink var(--t, 2s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-bob {
+  animation: a-bob var(--t, 4s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-drift {
+  animation: a-drift var(--t, 12s) ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+.a-spin {
+  animation: a-spin var(--t, 24s) linear infinite;
+}
+.a-sir {
+  fill: rgb(var(--sky));
+  animation: a-sir var(--t, 9s) ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-type {
+  animation: a-type 1.2s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.a-move-x {
+  animation: a-move-x var(--t, 2.4s) ease-in infinite;
+  animation-delay: var(--d, 0s);
+  opacity: 0;
+}
+.a-eye {
+  animation: a-eye var(--t, 5s) ease-in-out infinite;
+}
+.plane {
+  animation: fly 7s ease-in-out infinite;
+}
+
+[data-live]:not([data-active]) .a-pop,
+[data-live]:not([data-active]) .a-fade,
+[data-live]:not([data-active]) .a-draw,
+[data-live]:not([data-active]) .a-dash,
+[data-live]:not([data-active]) .a-wave,
+[data-live]:not([data-active]) .a-grow-y,
+[data-live]:not([data-active]) .a-grow-x,
+[data-live]:not([data-active]) .a-blink,
+[data-live]:not([data-active]) .a-bob,
+[data-live]:not([data-active]) .a-drift,
+[data-live]:not([data-active]) .a-spin,
+[data-live]:not([data-active]) .a-sir,
+[data-live]:not([data-active]) .a-type,
+[data-live]:not([data-active]) .a-move-x,
+[data-live]:not([data-active]) .a-eye,
+[data-live]:not([data-active]) .plane {
+  animation-play-state: paused;
 }
 
 /* Command palette ------------------------------------------------------- */
@@ -456,18 +816,18 @@ dialog.palette {
   padding: 0;
   width: min(36rem, calc(100vw - 2rem));
   max-height: 70vh;
-  border: 1px solid rgb(var(--fg) / 0.14);
-  border-radius: 1rem;
-  background: rgb(var(--surface-2));
+  border: 1px solid rgb(var(--fg) / 0.12);
+  border-radius: 1.25rem;
+  background: rgb(var(--surface));
   color: rgb(var(--fg));
-  box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.55);
+  box-shadow: 0 30px 80px -20px rgb(30 41 66 / 0.4);
   overflow: hidden;
 }
 dialog.palette[open] {
   animation: rise 0.25s var(--ease-out) both;
 }
 dialog.palette::backdrop {
-  background: rgb(var(--bg) / 0.6);
+  background: rgb(var(--fg) / 0.28);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -477,14 +837,44 @@ dialog.palette::backdrop {
   .mask-line > span,
   .tab-panel,
   .count,
+  .floaty,
+  .marquee,
+  .mesh i,
   dialog.palette[open] {
     animation: none;
   }
   .pulse-dot {
     animation: none;
   }
-  .g-trace,
-  .g-glow {
+  .px,
+  .tilt {
+    transform: none !important;
+    transition: none;
+  }
+  .a-pop,
+  .a-fade {
+    animation: none;
+    opacity: 1;
+  }
+  .a-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .a-dash,
+  .a-wave,
+  .a-grow-y,
+  .a-grow-x,
+  .a-blink,
+  .a-bob,
+  .a-drift,
+  .a-spin,
+  .a-sir,
+  .a-type,
+  .a-eye,
+  .plane {
+    animation: none;
+  }
+  .a-move-x {
     animation: none;
     opacity: 0;
   }
@@ -493,10 +883,12 @@ dialog.palette::backdrop {
     transform: none;
     transition: none;
   }
+  .rail {
+    transform: scaleY(1);
+  }
 }
 
 @media print {
-  body::before,
   .no-print {
     display: none !important;
   }

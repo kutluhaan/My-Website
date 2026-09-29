@@ -20,16 +20,31 @@ export const profile = {
     'Previously an AI/ML intern at GT-ARC Berlin, the research institute behind the OPACA multi-agent framework, and now an upstream contributor to its open-source SAGE repository.',
   pitchTr:
     "Production seviyesinde agentic AI sistemleri geliştiren; backend ve altyapı tarafında da derinliği olan, canlı bir aracı kurum API’sine bağlı agentic işlem sistemi kurmuş bir Yapay Zekâ Mühendisi.",
+  marquee: [
+    'BEKO',
+    'Bürotime',
+    'GT-ARC Berlin',
+    'TU Berlin DAI-Labor',
+    'Sabancı University',
+    'Deniz Yatırım Algolab',
+    'NVIDIA DLI',
+    'IBM',
+    'DeepLearning.AI',
+    'kAi NVIDIA Student Club',
+  ],
   strengths: [
     {
+      icon: 'chart',
       title: 'Measured agentic AI in production',
       body: 'Evaluation infrastructure and concrete accuracy numbers, not demos: a 300+ scenario test set, LLM-as-a-Judge and human review.',
     },
     {
+      icon: 'layers',
       title: 'Model and system, together',
       body: 'The LLM layer plus the backend services, event streams and infrastructure it needs to survive real traffic.',
     },
     {
+      icon: 'candles',
       title: 'A real market connection',
       body: 'An agentic trading system wired to a live brokerage API, with layered risk controls, not a paper simulation.',
     },

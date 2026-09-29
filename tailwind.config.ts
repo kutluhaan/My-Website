@@ -22,6 +22,12 @@ const config: Config = {
         accent: token('accent'),
         'accent-fg': token('accent-fg'),
         ok: token('ok'),
+        coral: token('coral'),
+        sun: token('sun'),
+        mint: token('mint'),
+        sky: token('sky'),
+        lilac: token('lilac'),
+        pink: token('pink'),
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
