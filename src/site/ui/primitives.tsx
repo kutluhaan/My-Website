@@ -25,7 +25,7 @@ export function Bullets({ items, className }: { items: readonly string[]; classN
     <ul className={cn('max-w-[52rem] space-y-3.5', className)}>
       {items.map((item) => (
         <li key={item} className="relative pl-6 leading-relaxed text-muted">
-          <span aria-hidden className="absolute left-0 top-[0.62em] h-1.5 w-1.5 bg-accent" />
+          <span aria-hidden className="absolute left-0 top-[0.8em] h-px w-3 bg-accent" />
           {item}
         </li>
       ))}
@@ -33,7 +33,7 @@ export function Bullets({ items, className }: { items: readonly string[]; classN
   );
 }
 
-/** Section header: index, hairline, label, then a big split-word title. */
+/** Section header: small label, then a serif headline. */
 export function SectionHead({
   id,
   no,
@@ -48,25 +48,17 @@ export function SectionHead({
   children?: ReactNode;
 }) {
   return (
-    <div className="relative mb-14 sm:mb-20">
-      <span
-        aria-hidden
-        data-reveal
-        className="display pointer-events-none absolute -top-2 right-0 hidden select-none text-[clamp(9rem,17vw,21rem)] leading-none text-transparent lg:block"
-        style={{ WebkitTextStroke: '1px rgb(var(--fg) / 0.13)' }}
-      >
-        {no}
-      </span>
-      <div className="relative flex items-center gap-4">
-        <span className="hud !text-accent">{no}</span>
-        <span aria-hidden data-reveal="line" className="h-px flex-1 bg-fg/20" />
-        <span className="hud">{label}</span>
-      </div>
-      <h2 id={id} data-split className="display display-lg mt-8 max-w-[16ch]">
+    <div className="mb-14 max-w-3xl sm:mb-20">
+      <p data-reveal className="hud flex items-center gap-3">
+        <span className="text-accent">{no}</span>
+        <span aria-hidden className="h-px w-8 bg-fg/20" />
+        {label}
+      </p>
+      <h2 id={id} data-reveal className="display display-lg mt-6" style={{ transitionDelay: '80ms' }}>
         {title}
       </h2>
       {children ? (
-        <p data-reveal className="lede mt-7 max-w-prose">
+        <p data-reveal className="lede mt-7 max-w-prose" style={{ transitionDelay: '160ms' }}>
           {children}
         </p>
       ) : null}
@@ -77,7 +69,7 @@ export function SectionHead({
 /** Small "table" row: label on the left, value on the right. */
 export function KV({ k, children }: { k: string; children: ReactNode }) {
   return (
-    <div className="grid grid-cols-[7rem_1fr] gap-4 border-t border-fg/[0.12] py-3.5 sm:grid-cols-[9rem_1fr]">
+    <div className="grid grid-cols-[6.5rem_1fr] gap-4 border-t border-fg/10 py-4 sm:grid-cols-[8rem_1fr]">
       <dt className="hud pt-0.5">{k}</dt>
       <dd className="text-[15px] text-fg">{children}</dd>
     </div>

@@ -12,8 +12,10 @@ const config: Config = {
   theme: {
     borderRadius: {
       none: '0px',
-      DEFAULT: '0px',
-      full: '9999px', // only for status dots
+      DEFAULT: '2px',
+      sm: '2px',
+      md: '4px',
+      full: '9999px', // status dots
     },
     extend: {
       colors: {
@@ -31,10 +33,11 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        serif: ['var(--font-serif)', 'Georgia', 'Times New Roman', 'serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
       },
       maxWidth: {
-        page: '90rem',
+        page: '80rem',
         prose: '60ch',
       },
       transitionTimingFunction: {

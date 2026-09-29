@@ -1,24 +1,24 @@
 import type { Metadata, Viewport } from 'next';
-import { Archivo, Martian_Mono } from 'next/font/google';
+import { Inter, Instrument_Serif } from 'next/font/google';
 import { profile } from '@/content/profile';
 import { asset, cvHref, siteOrigin, siteUrl } from '@/lib/site';
 import { Behavior } from '@/site/behavior/Behavior';
 import { Footer } from '@/site/layout/Footer';
-import { Header, Rail } from '@/site/layout/Header';
+import { Header } from '@/site/layout/Header';
 import { Palette } from '@/site/layout/Palette';
 import './globals.css';
 
-// Archivo is a variable font with a width axis: at wdth 62 it is the extra-condensed display face.
-const sans = Archivo({
+const sans = Inter({
   subsets: ['latin'],
-  axes: ['wdth'],
   variable: '--font-sans',
   display: 'swap',
 });
 
-const mono = Martian_Mono({
+const serif = Instrument_Serif({
   subsets: ['latin'],
-  variable: '--font-mono',
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
   display: 'swap',
 });
 
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#07080A',
+  themeColor: '#0E0F11',
   colorScheme: 'dark light',
 };
 
@@ -84,41 +84,24 @@ const personLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${serif.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
       </head>
-      <body className="grain">
+      <body>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-5 focus:py-3 focus:font-mono focus:text-xs focus:uppercase focus:text-accent-fg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-accent focus:px-5 focus:py-3 focus:text-sm focus:font-medium focus:text-accent-fg"
         >
           Skip to main content
         </a>
-        <div aria-hidden data-progress className="fixed inset-x-0 top-0 z-[70] h-[2px] origin-left scale-x-0 bg-accent" />
-        <div aria-hidden className="cols">
-          <div className="container-page h-full">
-            <div className="grid h-full grid-cols-4 lg:grid-cols-12">
-              {Array.from({ length: 12 }, (_, i) => (
-                <i key={i} className={i > 3 ? 'hidden lg:block' : ''} />
-              ))}
-            </div>
-          </div>
-        </div>
         <Header />
-        <Rail />
-        <main id="main-content" tabIndex={-1} className="relative z-[1] outline-none">
+        <main id="main-content" tabIndex={-1} className="outline-none">
           {children}
         </main>
-        <div className="relative z-[1]">
-          <Footer />
-        </div>
+        <Footer />
         <Palette github={profile.github} linkedin={profile.linkedin} email={profile.email} cv={cvHref} />
-        <div aria-hidden className="cur cur-dot" data-cur-dot />
-        <div aria-hidden className="cur cur-ring" data-cur-ring>
-          <span />
-        </div>
         <Behavior />
       </body>
     </html>

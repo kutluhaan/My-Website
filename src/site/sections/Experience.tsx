@@ -1,18 +1,14 @@
 import { experience, type Experience as Entry, type ExperienceTab, type Stat } from '@/content/experience';
-import { Cover } from '@/site/art/Cover';
 import { Flow } from '@/site/ui/Flow';
 import { Bullets, ChipList, SectionHead } from '@/site/ui/primitives';
 
 function Readouts({ stats }: { stats: Stat[] }) {
   return (
-    <ul className="grid grid-cols-2 border border-fg/[0.12]">
-      {stats.map((s, i) => (
-        <li
-          key={s.label}
-          className={`p-4 sm:p-5 ${i % 2 ? 'border-l border-fg/[0.12]' : ''} ${i > 1 ? 'border-t border-fg/[0.12]' : ''} ${stats.length > 1 && stats.length % 2 && i === stats.length - 1 ? 'col-span-2 !border-l-0' : ''}`}
-        >
-          <p className="display num text-[clamp(2rem,1.3rem+1.6vw,3.25rem)]">{s.value}</p>
-          <p className="hud mt-2 !normal-case !tracking-[0.04em] !text-muted">{s.label}</p>
+    <ul className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3">
+      {stats.map((s) => (
+        <li key={s.label} className="border-t border-fg/10 pt-4">
+          <p className="display num text-[clamp(2rem,1.4rem+1.5vw,3rem)] leading-none">{s.value}</p>
+          <p className="mt-3 text-[13px] leading-snug text-muted">{s.label}</p>
         </li>
       ))}
     </ul>
@@ -27,14 +23,14 @@ const chevron = (
 
 function Details({ label, items }: { label: string; items: string[] }) {
   return (
-    <details className="disclosure mt-7 border border-fg/[0.12] px-5 py-1">
-      <summary className="flex min-h-12 items-center justify-between gap-4">
-        <span className="hud !text-fg">
-          {label} <span className="ml-2 text-faint">{items.length} pts</span>
+    <details className="disclosure mt-8 border-y border-fg/10">
+      <summary className="flex min-h-14 items-center justify-between gap-4 text-[15px]">
+        <span>
+          {label} <span className="ml-2 text-faint">{items.length} points</span>
         </span>
         {chevron}
       </summary>
-      <Bullets items={items} className="pb-4 pt-3" />
+      <Bullets items={items} className="pb-6 pt-2" />
     </details>
   );
 }
@@ -42,33 +38,26 @@ function Details({ label, items }: { label: string; items: string[] }) {
 function TabContent({ tab }: { tab: ExperienceTab }) {
   return (
     <div>
-      <div className="grid gap-8 lg:grid-cols-5 lg:gap-10">
-        <div className="lg:col-span-3">
-          <p className="hud !text-accent">{tab.kicker}</p>
-          <p className="mt-3 max-w-prose text-lg leading-relaxed">{tab.summary}</p>
-          <div className="mt-6">
-            <Readouts stats={tab.stats} />
-          </div>
-        </div>
-        <div className="lg:col-span-2">
-          <Cover kind={tab.cover} />
-        </div>
+      <p className="hud text-accent">{tab.kicker}</p>
+      <p className="mt-3 max-w-prose text-lg leading-relaxed">{tab.summary}</p>
+      <div className="mt-8">
+        <Readouts stats={tab.stats} />
       </div>
 
       {tab.story && (
-        <div className="mt-8 border border-fg/[0.12] border-l-2 border-l-accent bg-surface p-6 sm:p-8">
-          <p className="hud !text-accent">Case file · {tab.story.title}</p>
-          <ol className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 rounded-sm border border-fg/10 bg-surface p-6 sm:p-8">
+          <p className="hud text-accent">{tab.story.title}</p>
+          <ol className="mt-6 grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
             {tab.story.steps.map((step, i) => (
               <li key={step.label}>
-                <p className="hud !text-accent">0{i + 1}</p>
-                <p className="display mt-2 text-xl leading-none">{step.label}</p>
+                <p className="hud">0{i + 1}</p>
+                <p className="display mt-2 text-[1.35rem] leading-tight">{step.label}</p>
                 <p className="mt-2 text-[15px] leading-relaxed text-muted">{step.text}</p>
               </li>
             ))}
           </ol>
-          <p className="display display-md mt-8 border-t border-fg/[0.12] pt-6 !leading-[0.95]">
-            <span className="text-accent">▸</span> {tab.story.result}
+          <p className="display mt-8 border-t border-fg/10 pt-6 text-[clamp(1.4rem,1.1rem+1vw,2rem)] leading-tight">
+            <span className="em">→</span> {tab.story.result}
           </p>
         </div>
       )}
@@ -79,7 +68,7 @@ function TabContent({ tab }: { tab: ExperienceTab }) {
         </div>
       )}
 
-      <ChipList items={tab.stack} className="mt-7" />
+      <ChipList items={tab.stack} className="mt-8" />
       <Details label="Full details" items={tab.bullets} />
     </div>
   );
@@ -89,7 +78,7 @@ function Tabs({ entry }: { entry: Entry }) {
   const tabs = entry.tabs!;
   return (
     <div data-tabs>
-      <div role="tablist" aria-label={`${entry.org} projects`} className="flex flex-wrap">
+      <div role="tablist" aria-label={`${entry.org} projects`} className="flex flex-wrap gap-x-7 border-b border-fg/10">
         {tabs.map((t, i) => (
           <button
             key={t.id}
@@ -99,8 +88,7 @@ function Tabs({ entry }: { entry: Entry }) {
             aria-selected={i === 0}
             aria-controls={`${entry.id}-panel-${t.id}`}
             tabIndex={i === 0 ? 0 : -1}
-            data-cursor="SWITCH"
-            className="hud -ml-px border border-fg/[0.2] px-5 py-3.5 transition-colors first:ml-0 hover:!text-fg aria-selected:border-accent aria-selected:bg-accent aria-selected:!text-accent-fg"
+            className="-mb-px border-b border-transparent pb-3.5 text-[15px] text-muted transition-colors hover:text-fg aria-selected:border-accent aria-selected:text-fg"
           >
             {t.label}
           </button>
@@ -125,26 +113,18 @@ export function Experience() {
           label="Experience"
           title={
             <>
-              Where the work has <span className="outline">shipped</span>.
+              Where the work has <span className="em">shipped</span>.
             </>
           }
         />
 
-        <div data-timeline className="relative">
-          <div aria-hidden className="absolute bottom-0 left-[3px] top-0 w-px bg-fg/[0.14] lg:left-[calc(25%-1.55rem)]" />
-          <div aria-hidden className="rail absolute bottom-0 left-[2px] top-0 w-[3px] bg-accent lg:left-[calc(25%-1.55rem-1px)]" />
-
-          {experience.map((exp, i) => (
-            <article key={exp.id} id={exp.id} aria-label={`${exp.role}, ${exp.org}`} data-reveal className="relative grid gap-8 border-t border-fg/[0.12] py-12 pl-8 sm:py-16 lg:grid-cols-12 lg:gap-12 lg:pl-0">
-              <span aria-hidden className="absolute left-0 top-[3.7rem] h-[7px] w-[7px] bg-accent shadow-[0_0_0_5px_rgb(var(--bg))] sm:top-[4.7rem] lg:left-[calc(25%-1.55rem-2px)]" />
+        <div>
+          {experience.map((exp) => (
+            <article key={exp.id} id={exp.id} aria-label={`${exp.role}, ${exp.org}`} data-reveal className="grid gap-8 border-t border-fg/10 py-14 sm:py-16 lg:grid-cols-12 lg:gap-14">
               <div className="lg:col-span-3">
-                <p className="hud !text-accent">EXP.0{i + 1}</p>
-                <p className="hud mt-2">{exp.period}</p>
-                <p className="display mt-4 text-[clamp(1.6rem,1.2rem+1vw,2.2rem)] leading-[0.95]">{exp.org}</p>
-                <p className="mt-2 text-sm text-muted">{exp.place}</p>
-                <div className="mt-6 hidden max-w-[17rem] lg:block">
-                  <Cover kind={exp.scene} />
-                </div>
+                <p className="hud">{exp.period}</p>
+                <p className="display mt-4 text-[clamp(1.6rem,1.2rem+0.9vw,2.1rem)] leading-tight">{exp.org}</p>
+                <p className="mt-2 text-[14px] text-muted">{exp.place}</p>
               </div>
 
               <div className="lg:col-span-9">
@@ -152,26 +132,19 @@ export function Experience() {
                 <p className="mt-5 max-w-prose text-muted">{exp.blurb}</p>
 
                 {exp.tabs ? (
-                  <div className="mt-9">
+                  <div className="mt-10">
                     <Tabs entry={exp} />
                   </div>
                 ) : (
-                  <div className="mt-9 grid gap-8 lg:grid-cols-5 lg:gap-10">
-                    <div className="lg:col-span-3">
-                      {exp.stats && <Readouts stats={exp.stats} />}
-                      {exp.stack && <ChipList items={exp.stack} className="mt-6" />}
-                      {exp.bullets && (exp.bullets.length > 1 ? <Details label="Full details" items={exp.bullets} /> : <Bullets items={exp.bullets} className="mt-2" />)}
-                    </div>
-                    {exp.cover && (
-                      <div className="lg:col-span-2">
-                        <Cover kind={exp.cover} />
-                      </div>
-                    )}
+                  <div className="mt-10">
+                    {exp.stats && <Readouts stats={exp.stats} />}
+                    {exp.stack && <ChipList items={exp.stack} className="mt-8" />}
+                    {exp.bullets && (exp.bullets.length > 1 ? <Details label="Full details" items={exp.bullets} /> : <Bullets items={exp.bullets} className="mt-4" />)}
                   </div>
                 )}
 
                 {exp.more && (
-                  <div className="mt-8 border border-fg/[0.12] bg-surface p-6">
+                  <div className="mt-10 rounded-sm border border-fg/10 bg-surface p-6">
                     <p className="hud mb-4">Also at {exp.org}</p>
                     <Bullets items={exp.more} />
                   </div>
@@ -179,6 +152,7 @@ export function Experience() {
               </div>
             </article>
           ))}
+          <div className="border-t border-fg/10" />
         </div>
       </div>
     </section>

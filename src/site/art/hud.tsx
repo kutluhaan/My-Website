@@ -103,10 +103,10 @@ export function Figure({
   ratio?: string;
 }) {
   return (
-    <figure data-live className={cn('panel ticks blueprint relative m-0 overflow-hidden', ratio, className)}>
+    <figure data-live className={cn('panel relative m-0 overflow-hidden', ratio, className)}>
       {children}
-      <figcaption className="hud pointer-events-none absolute left-3 top-2.5 z-[4] !text-[10px] !text-muted">
-        FIG.{no} <span className="text-faint">/ {title}</span>
+      <figcaption className="hud pointer-events-none absolute left-3 top-2.5 z-[4] !text-[11px]">
+        Fig. {no} <span className="text-faint">· {title.toLowerCase()}</span>
       </figcaption>
     </figure>
   );

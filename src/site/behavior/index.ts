@@ -1,5 +1,4 @@
 import Lenis from 'lenis';
-import { startNetwork } from './network';
 
 /**
  * Interaction layer. Plain DOM + data-attributes, no framework: the page is
@@ -21,7 +20,6 @@ export function init(): () => void {
 
   const html = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const wide = () => matchMedia('(min-width: 1024px)').matches;
 
   /* ---------------------------------------------------------------- scroll */
@@ -70,73 +68,19 @@ export function init(): () => void {
     else window.scrollTo(0, top);
   };
 
-  /* --------------------------------------------------------- split words */
-  const splitWords = (el: HTMLElement, mode: 'mask' | 'scrub') => {
-    if (el.dataset.splitDone) return;
-    el.dataset.splitDone = '1';
-    let index = 0;
-    const walk = (node: Node) => {
-      Array.from(node.childNodes).forEach((child) => {
-        if (child.nodeType === Node.TEXT_NODE) {
-          const text = child.textContent ?? '';
-          if (!text.trim()) return;
-          const frag = document.createDocumentFragment();
-          text.split(/(\s+)/).forEach((part) => {
-            if (!part) return;
-            if (/^\s+$/.test(part)) {
-              frag.append(document.createTextNode(' '));
-              return;
-            }
-            const i = index++;
-            if (mode === 'mask') {
-              const wrap = document.createElement('span');
-              wrap.className = 'sw-w';
-              const inner = document.createElement('span');
-              inner.className = 'sw-i';
-              inner.style.setProperty('--i', String(i));
-              inner.textContent = part;
-              wrap.append(inner);
-              frag.append(wrap);
-            } else {
-              const s = document.createElement('span');
-              s.className = 'sw-s';
-              s.style.setProperty('--i', String(i));
-              s.textContent = part;
-              frag.append(s);
-            }
-          });
-          child.replaceWith(frag);
-        } else if (child.nodeType === Node.ELEMENT_NODE && (child as Element).tagName !== 'BR') {
-          walk(child);
-        }
-      });
-    };
-    walk(el);
-    if (mode === 'scrub') el.style.setProperty('--n', String(index));
-  };
-  qa('[data-split]').forEach((el) => splitWords(el, 'mask'));
-  const scrubs = qa('[data-scrub]');
-  scrubs.forEach((el) => splitWords(el, 'scrub'));
-
   /* ------------------------------------------------------------- reveals */
   if ('IntersectionObserver' in window) {
-    // A clip-path'd element (wipe) reports as not intersecting, so those are watched through their parent
-    const watch = new Map<Element, HTMLElement[]>();
     const revealIO = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (!e.isIntersecting) return;
-          watch.get(e.target)?.forEach((el) => (el.dataset.in = ''));
+          (e.target as HTMLElement).dataset.in = '';
           revealIO.unobserve(e.target);
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
+      { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
     );
-    qa('[data-reveal], [data-split]').forEach((el) => {
-      const host = el.dataset.reveal === 'wipe' && el.parentElement ? el.parentElement : el;
-      watch.set(host, [...(watch.get(host) ?? []), el]);
-      revealIO.observe(host);
-    });
+    qa('[data-reveal]').forEach((el) => revealIO.observe(el));
     cleanups.push(() => revealIO.disconnect());
 
     const liveIO = new IntersectionObserver(
@@ -151,21 +95,12 @@ export function init(): () => void {
     qa('[data-live]').forEach((el) => liveIO.observe(el));
     cleanups.push(() => liveIO.disconnect());
   } else {
-    qa('[data-reveal], [data-split]').forEach((el) => ((el as HTMLElement).dataset.in = ''));
+    qa('[data-reveal]').forEach((el) => ((el as HTMLElement).dataset.in = ''));
     qa('[data-live]').forEach((el) => el.setAttribute('data-active', ''));
   }
 
   /* -------------------------------------------------------- scroll driven */
   const header = q('[data-header]');
-  const bar = q('[data-progress]');
-  const scene = q('[data-scene]');
-  const timelines = qa('[data-timeline]');
-  // Measuring inside a content-visibility:auto section forces its layout, so only touch nearby sections
-  const nearby = (el: Element, vh: number) => {
-    const r = (el.closest('section') ?? el).getBoundingClientRect();
-    return r.bottom > -vh && r.top < vh * 2;
-  };
-  const parallax = qa('[data-parallax-y]');
   const sections = qa<HTMLElement>('main section[id]');
   const spies = qa<HTMLAnchorElement>('[data-spy]');
   let ticking = false;
@@ -177,31 +112,7 @@ export function init(): () => void {
       ticking = false;
       const y = window.scrollY;
       const vh = window.innerHeight;
-      const max = Math.max(1, document.documentElement.scrollHeight - vh);
-
       header?.toggleAttribute('data-solid', y > 24);
-      if (bar) bar.style.transform = `scaleX(${clamp(y / max)})`;
-
-      if (scene && !reduced) {
-        scene.style.setProperty('--sp', clamp(y / (scene.offsetHeight * 0.95)).toFixed(4));
-      }
-      parallax.forEach((el) => {
-        if (!reduced) el.style.transform = `translate3d(0, ${(-clamp(y / vh) * 70).toFixed(1)}px, 0)`;
-      });
-
-      timelines.forEach((el) => {
-        if (!nearby(el, vh)) return;
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--tl', clamp((vh * 0.62 - r.top) / r.height).toFixed(4));
-      });
-
-      scrubs.forEach((el) => {
-        if (!nearby(el, vh)) return;
-        const r = el.getBoundingClientRect();
-        if (r.bottom < -200 || r.top > vh + 200) return;
-        const p = clamp((vh * 0.88 - r.top) / (vh * 0.88 - vh * 0.42 + r.height));
-        el.style.setProperty('--p', p.toFixed(4));
-      });
 
       let current = '';
       sections.forEach((s) => {
@@ -218,18 +129,6 @@ export function init(): () => void {
   on(window, 'scroll', onScroll, { passive: true });
   on(window, 'resize', onScroll, { passive: true });
   onScroll();
-
-  /* --------------------------------------------------------------- clock */
-  const clock = q('[data-clock]');
-  if (clock) {
-    const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Istanbul', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const tick = () => {
-      if (!document.hidden) clock.textContent = fmt.format(new Date());
-    };
-    tick();
-    const id = window.setInterval(tick, 1000);
-    cleanups.push(() => clearInterval(id));
-  }
 
   /* --------------------------------------------------------------- theme */
   const toggleTheme = () => {
@@ -258,7 +157,6 @@ export function init(): () => void {
     dlg.showModal();
     dlg.scrollTop = 0;
     qa('[data-live]', dlg).forEach((el) => el.setAttribute('data-active', ''));
-    hidePreview();
     if (previous) {
       // stacked swap: the new file slides over the old one, then the old one is dropped
       window.setTimeout(() => previous.close(), reduced ? 0 : 720);
@@ -297,157 +195,6 @@ export function init(): () => void {
       if (e.target === dlg) closeCase(dlg);
     });
   });
-
-  /* ------------------------------------------------------- work preview */
-  const preview = q('[data-preview]');
-  const slot = q('[data-preview-slot]');
-  const items = new Map<string, HTMLElement>();
-  const pv = { x: 0, y: 0, tx: 0, ty: 0, rot: 0, on: false };
-  const usePreview = finePointer && !!preview && !!slot;
-
-  function hidePreview() {
-    pv.on = false;
-    preview?.classList.remove('on');
-  }
-  const showPreview = (id: string) => {
-    if (!usePreview || !wide()) return;
-    let item = items.get(id);
-    if (!item) {
-      const src = q(`#case-${CSS.escape(id)} [data-cover]`);
-      if (!src) return;
-      item = document.createElement('div');
-      item.className = 'preview-item';
-      const clone = src.cloneNode(true) as HTMLElement;
-      clone.removeAttribute('data-cover');
-      clone.className = 'w-full';
-      qa('[data-live]', clone).forEach((el) => el.setAttribute('data-active', ''));
-      item.append(clone);
-      slot!.append(item);
-      items.set(id, item);
-    }
-    items.forEach((el, key) => el.classList.toggle('on', key === id));
-    pv.on = true;
-    preview!.classList.add('on');
-  };
-
-  if (usePreview) {
-    qa('[data-case]').forEach((row) => {
-      const id = row.dataset.case!;
-      row.addEventListener('pointerenter', () => showPreview(id));
-      row.addEventListener('pointerleave', hidePreview);
-      row.addEventListener('focus', () => showPreview(id));
-      row.addEventListener('blur', hidePreview);
-    });
-    on(document, 'pointermove', (e) => {
-      const p = e as PointerEvent;
-      pv.tx = p.clientX;
-      pv.ty = p.clientY;
-    });
-  }
-
-  /* -------------------------------------------------------------- cursor */
-  const dot = q('[data-cur-dot]');
-  const ring = q('[data-cur-ring]');
-  const ringLabel = ring?.querySelector('span') ?? null;
-  const cur = { x: -100, y: -100, rx: -100, ry: -100, seen: false };
-
-  if (finePointer && dot && ring) {
-    on(document, 'pointermove', (e) => {
-      const p = e as PointerEvent;
-      cur.x = p.clientX;
-      cur.y = p.clientY;
-      if (!cur.seen) {
-        cur.seen = true;
-        cur.rx = cur.x;
-        cur.ry = cur.y;
-        dot.classList.add('on');
-        ring.classList.add('on');
-      }
-      const t = (p.target as Element | null)?.closest?.('a, button, summary, input, [data-cursor], [role="option"]') as HTMLElement | null;
-      const label = t?.closest<HTMLElement>('[data-cursor]')?.dataset.cursor ?? '';
-      ring.classList.toggle('hot', !!t);
-      if (ringLabel && ringLabel.textContent !== label) ringLabel.textContent = label;
-    });
-    on(document.documentElement, 'pointerleave', () => {
-      dot.classList.remove('on');
-      ring.classList.remove('on');
-      cur.seen = false;
-    });
-  }
-
-  /* ------------------------------------------------ portrait scan spotlight */
-  const scans = qa('[data-scan]').map((el) => ({ el, hover: false, vis: false, x: 0, y: 0, tx: 0, ty: 0, init: false }));
-  if (scans.length) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        const s = scans.find((k) => k.el === e.target);
-        if (s) s.vis = e.isIntersecting;
-      });
-    });
-    scans.forEach((s) => {
-      io.observe(s.el);
-      s.el.addEventListener('pointermove', (e) => {
-        const r = s.el.getBoundingClientRect();
-        s.hover = true;
-        s.tx = (e as PointerEvent).clientX - r.left;
-        s.ty = (e as PointerEvent).clientY - r.top;
-      });
-      s.el.addEventListener('pointerleave', () => {
-        s.hover = false;
-      });
-    });
-    cleanups.push(() => io.disconnect());
-  }
-
-  /* ---------------------------------------------------------- magnetic */
-  if (finePointer && !reduced) {
-    qa('[data-magnetic]').forEach((el) => {
-      el.addEventListener('pointermove', (e) => {
-        const r = el.getBoundingClientRect();
-        const dx = (e as PointerEvent).clientX - (r.left + r.width / 2);
-        const dy = (e as PointerEvent).clientY - (r.top + r.height / 2);
-        el.style.transform = `translate3d(${(dx * 0.22).toFixed(1)}px, ${(dy * 0.32).toFixed(1)}px, 0)`;
-      });
-      el.addEventListener('pointerleave', () => {
-        el.style.transform = '';
-      });
-    });
-  }
-
-  /* ---------------------------------------------------- nav text scramble */
-  if (!reduced) {
-    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>_-+';
-    qa('[data-scramble]').forEach((el) => {
-      const node = Array.from(el.childNodes).find((n) => n.nodeType === Node.TEXT_NODE && (n.textContent ?? '').trim());
-      if (!node) return;
-      const original = node.textContent ?? '';
-      let timer = 0;
-      const run = () => {
-        clearInterval(timer);
-        const letters = original.trim().length;
-        let frame = 0;
-        timer = window.setInterval(() => {
-          frame++;
-          let out = '';
-          let seen = 0;
-          for (const ch of original) {
-            if (/\s/.test(ch)) out += ch;
-            else out += seen++ < frame / 1.6 ? ch : glyphs[Math.floor(Math.random() * glyphs.length)];
-          }
-          node.textContent = out;
-          if (frame / 1.6 >= letters) {
-            clearInterval(timer);
-            node.textContent = original;
-          }
-        }, 28);
-      };
-      el.addEventListener('pointerenter', run);
-      cleanups.push(() => {
-        clearInterval(timer);
-        node.textContent = original;
-      });
-    });
-  }
 
   /* ------------------------------------------------------------ palette */
   const palette = q<HTMLDialogElement>('#palette');
@@ -691,7 +438,6 @@ export function init(): () => void {
         n++;
       }
     });
-    hidePreview();
   }
 
   /* -------------------------------------------------------------- tabs */
@@ -720,63 +466,16 @@ export function init(): () => void {
     selectTab(tabs[(next + tabs.length) % tabs.length], true);
   });
 
-  /* ----------------------------------------------------- network canvas */
-  const canvas = q<HTMLCanvasElement>('canvas[data-network]');
-  if (canvas) cleanups.push(startNetwork(canvas, { reduced }));
-
-  /* -------------------------------------------------------- master loop */
-  let raf = 0;
-  const loop = (time: number) => {
-    lenis?.raf(time);
-
-    if (cur.seen && ring && dot) {
-      cur.rx += (cur.x - cur.rx) * (reduced ? 1 : 0.18);
-      cur.ry += (cur.y - cur.ry) * (reduced ? 1 : 0.18);
-      dot.style.transform = `translate3d(${cur.x}px, ${cur.y}px, 0)`;
-      ring.style.transform = `translate3d(${cur.rx}px, ${cur.ry}px, 0)`;
-    }
-
-    if (pv.on && preview) {
-      const w = preview.offsetWidth || 400;
-      const h = preview.offsetHeight || 280;
-      const tx = Math.min(pv.tx + 36, window.innerWidth - w - 24);
-      const ty = clamp(pv.ty - h / 2, 88, window.innerHeight - h - 24);
-      if (!pv.x && !pv.y) {
-        pv.x = tx;
-        pv.y = ty;
-      }
-      const dx = tx - pv.x;
-      pv.x += dx * 0.14;
-      pv.y += (ty - pv.y) * 0.14;
-      pv.rot += (clamp(dx * 0.05, -4, 4) - pv.rot) * 0.15;
-      preview.style.transform = `translate3d(${pv.x.toFixed(1)}px, ${pv.y.toFixed(1)}px, 0) rotate(${pv.rot.toFixed(2)}deg)`;
-    }
-
-    if (scans.length && !reduced) {
-      scans.forEach((s) => {
-        if (!s.vis) return;
-        const r = s.el.getBoundingClientRect();
-        if (!s.hover) {
-          const t = time / 1000;
-          s.tx = r.width * (0.5 + 0.2 * Math.sin(t * 0.55));
-          s.ty = r.height * (0.42 + 0.14 * Math.cos(t * 0.8));
-        }
-        if (!s.init) {
-          s.x = s.tx;
-          s.y = s.ty;
-          s.init = true;
-        }
-        s.x += (s.tx - s.x) * (s.hover ? 0.22 : 0.08);
-        s.y += (s.ty - s.y) * (s.hover ? 0.22 : 0.08);
-        s.el.style.setProperty('--mx', `${s.x.toFixed(1)}px`);
-        s.el.style.setProperty('--my', `${s.y.toFixed(1)}px`);
-      });
-    }
-
+  /* -------------------------------------------------------- smooth-scroll loop */
+  if (lenis) {
+    let raf = 0;
+    const loop = (time: number) => {
+      lenis?.raf(time);
+      raf = requestAnimationFrame(loop);
+    };
     raf = requestAnimationFrame(loop);
-  };
-  raf = requestAnimationFrame(loop);
-  cleanups.push(() => cancelAnimationFrame(raf));
+    cleanups.push(() => cancelAnimationFrame(raf));
+  }
 
   // Programmatic hash on load (e.g. /#projects) gets the same smooth offset
   if (location.hash.length > 1) {

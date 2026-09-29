@@ -21,12 +21,12 @@ export function Palette({ github, linkedin, email, cv }: { github: string; linke
           spellCheck={false}
           placeholder="Jump to a section, project or link…"
           aria-label="Search sections, projects and links"
-          className="h-14 w-full bg-transparent font-mono text-sm text-fg placeholder:text-faint focus:outline-none"
+          className="h-14 w-full bg-transparent text-[15px] text-fg placeholder:text-faint focus:outline-none"
         />
-        <kbd className="hud border border-fg/20 px-1.5 py-0.5 !text-[10px]">Esc</kbd>
+        <kbd className="hud rounded-sm border border-fg/20 px-1.5 py-0.5 !text-[11px]">Esc</kbd>
       </div>
       <ul data-palette-list role="listbox" aria-label="Results" className="max-h-[50vh] overflow-y-auto py-2" data-lenis-prevent>
-        <li role="presentation" className="hud px-4 pb-1 pt-2 !text-[10px]">Sections</li>
+        <li role="presentation" className="hud px-4 pb-1 pt-2 !text-[11px]">Sections</li>
         {navItems.map((n, i) => (
           <li key={n.id} role="option" aria-selected="false" tabIndex={-1} data-cmd data-go={`#${n.id}`} data-q={`${n.label} ${n.id}`} className="palette-item">
             <span className="hud !text-accent">0{i + 1}</span>
@@ -34,7 +34,7 @@ export function Palette({ github, linkedin, email, cv }: { github: string; linke
             <span className="hud ml-auto">Go to</span>
           </li>
         ))}
-        <li role="presentation" className="hud px-4 pb-1 pt-4 !text-[10px]">Projects</li>
+        <li role="presentation" className="hud px-4 pb-1 pt-4 !text-[11px]">Projects</li>
         {projects.map((p, i) => (
           <li key={p.id} role="option" aria-selected="false" tabIndex={-1} data-cmd data-case-open={p.id} data-q={`${p.short} ${p.title} ${p.kinds.join(' ')}`} className="palette-item">
             <span className="hud !text-accent">{String(i + 1).padStart(2, '0')}</span>
@@ -42,7 +42,7 @@ export function Palette({ github, linkedin, email, cv }: { github: string; linke
             <span className="hud ml-auto">Case file</span>
           </li>
         ))}
-        <li role="presentation" className="hud px-4 pb-1 pt-4 !text-[10px]">Actions</li>
+        <li role="presentation" className="hud px-4 pb-1 pt-4 !text-[11px]">Actions</li>
         <li role="option" aria-selected="false" tabIndex={-1} data-cmd data-copy={email} data-q="copy email address" className="palette-item">
           <span className="hud !text-accent">⧉</span>
           <span>Copy email address</span>
