@@ -1,49 +1,23 @@
-import dynamic from 'next/dynamic';
-import { Hero } from '@/components/sections/Hero';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-
-// Lazy load below-fold components
-const BentoGrid = dynamic(() => import('@/components/sections/BentoGrid').then(mod => ({ default: mod.BentoGrid })), {
-  loading: () => <div className="min-h-screen" />,
-});
-
-const TechStack = dynamic(() => import('@/components/sections/TechStack').then(mod => ({ default: mod.TechStack })), {
-  loading: () => <div className="min-h-[50vh]" />,
-});
-
-const Projects = dynamic(() => import('@/components/sections/Projects').then(mod => ({ default: mod.Projects })), {
-  loading: () => <div className="min-h-screen" />,
-});
-
-const Terminal = dynamic(() => import('@/components/sections/Terminal').then(mod => ({ default: mod.Terminal })), {
-  loading: () => <div className="min-h-[50vh]" />,
-});
-
-const CTASection = dynamic(() => import('@/components/sections/CTASection').then(mod => ({ default: mod.CTASection })), {
-  loading: () => <div className="min-h-[40vh]" />,
-});
+import { About } from '@/site/sections/About';
+import { Contact } from '@/site/sections/Contact';
+import { Education } from '@/site/sections/Education';
+import { Experience } from '@/site/sections/Experience';
+import { Hero } from '@/site/sections/Hero';
+import { OpenSource } from '@/site/sections/OpenSource';
+import { Projects } from '@/site/sections/Projects';
+import { Skills } from '@/site/sections/Skills';
 
 export default function Home() {
   return (
     <>
-      <ErrorBoundary>
-        <Hero />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <BentoGrid />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <TechStack />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <Projects />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <CTASection />
-      </ErrorBoundary>
-      <ErrorBoundary>
-        <Terminal />
-      </ErrorBoundary>
+      <Hero />
+      <About />
+      <Experience />
+      <Projects />
+      <OpenSource />
+      <Skills />
+      <Education />
+      <Contact />
     </>
   );
 }
