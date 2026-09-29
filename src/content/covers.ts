@@ -1,0 +1,21 @@
+/** Which illustration a piece of content uses (see src/site/art/Cover.tsx). */
+export type CoverKind =
+  | 'trading'
+  | 'cloud'
+  | 'commerce'
+  | 'beko'
+  | 'burotime'
+  | 'sage'
+  | 'video'
+  | 'banking'
+  | 'dsa'
+  | 'expense'
+  | 'sir'
+  | 'turkey'
+  | 'attention'
+  | 'bio'
+  | 'others'
+  | 'opensource'
+  | 'istanbul'
+  | 'berlin'
+  | 'campus';
