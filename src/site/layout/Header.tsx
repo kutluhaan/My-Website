@@ -1,152 +1,97 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { Menu, Search, X } from 'lucide-react';
-import { navItems } from '@/lib/site';
+import { Menu, Moon, Search, Sun } from 'lucide-react';
 import { profile } from '@/content/profile';
-import { cn } from '@/lib/utils';
-import { iconButton } from '@/site/ui/primitives';
-import { ThemeToggle } from './ThemeToggle';
+import { navItems } from '@/lib/site';
 
-const spyIds = [...navItems.map((n) => n.id), 'opensource'];
-
+/** Fixed top bar: identity, numbered nav, live Istanbul clock, search, theme. */
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string>('');
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Scroll-spy: the section crossing the upper-middle of the viewport is "current".
-  useEffect(() => {
-    const els = spyIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el));
-    if (!('IntersectionObserver' in window)) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id === 'opensource' ? 'projects' : entry.target.id);
-        });
-      },
-      { rootMargin: '-38% 0px -58% 0px' },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
-
-  const openPalette = () => window.dispatchEvent(new Event('open-palette'));
-
   return (
     <header
-      className={cn(
-        'no-print fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-300',
-        scrolled || open
-          ? 'border-fg/[0.08] bg-surface/85 shadow-[0_8px_30px_-18px_rgb(30_41_66/0.25)] backdrop-blur-xl'
-          : 'border-transparent bg-transparent',
-      )}
+      data-header
+      className="no-print fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color] duration-500 data-[solid]:border-fg/10 data-[solid]:bg-bg/80 data-[solid]:backdrop-blur-md"
     >
-      <div className="container-page flex h-16 items-center justify-between gap-4">
-        <a href="#top" className="flex items-center gap-3 rounded-full">
-          <span
-            aria-hidden
-            className="grid h-9 w-9 place-items-center rounded-full bg-accent font-serif text-xl leading-none text-accent-fg shadow-[0_6px_16px_-6px_rgb(var(--accent)/0.7)]"
-          >
-            K
+      <div className="container-page flex h-16 items-center justify-between gap-6">
+        <a href="#top" className="flex items-center gap-3" data-cursor="TOP">
+          <span aria-hidden className="grid h-8 w-8 place-items-center border border-accent font-mono text-[11px] font-bold text-accent">
+            KA
           </span>
-          <span className="sr-only text-[15px] font-medium tracking-tight sm:not-sr-only">{profile.name}</span>
+          <span className="sr-only sm:hidden">{profile.name}, back to top</span>
+          <span className="hud hidden !text-fg sm:block">{profile.name}</span>
         </a>
 
-        <nav aria-label="Primary" className="hidden items-center gap-0.5 md:flex">
-          {navItems.map((item) => (
+        <nav aria-label="Primary" className="hidden items-center lg:flex">
+          {navItems.map((item, i) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              aria-current={active === item.id ? 'true' : undefined}
-              className={cn(
-                'relative rounded-full px-3.5 py-2 text-sm transition-colors',
-                active === item.id ? 'text-fg' : 'text-muted hover:text-fg',
-              )}
+              data-spy
+              data-scramble
+              className="hud group relative px-3.5 py-2 transition-colors hover:!text-fg aria-[current=true]:!text-fg"
             >
+              <span className="mr-2 text-accent">0{i + 1}</span>
               {item.label}
-              <span
-                aria-hidden
-                className={cn(
-                  'absolute inset-x-3.5 -bottom-px h-px bg-accent transition-transform duration-300 ease-out',
-                  active === item.id ? 'scale-x-100' : 'scale-x-0',
-                )}
-              />
+              <span aria-hidden className="absolute inset-x-3.5 -bottom-px h-px origin-left scale-x-0 bg-accent transition-transform duration-500 ease-expo group-aria-[current=true]:scale-x-100" />
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={openPalette}
-            className={cn(
-              iconButton,
-              'lg:w-auto lg:gap-2 lg:px-3.5 lg:font-mono lg:text-xs',
-            )}
-          >
-            <Search className="h-[17px] w-[17px]" aria-hidden />
+        <div className="flex items-center gap-3">
+          <span className="hud hidden items-center gap-2 xl:flex" title="Local time in Istanbul">
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-ok" />
+            IST <span data-clock className="num !text-fg">--:--:--</span>
+          </span>
+          <button type="button" data-open-palette className="btn btn-ghost !min-h-10 !gap-2 !px-3" data-cursor="SEARCH">
+            <Search className="h-3.5 w-3.5" aria-hidden />
             <span className="sr-only lg:not-sr-only">Search</span>
-            <kbd aria-hidden className="hidden rounded border border-fg/15 px-1.5 py-0.5 text-[10px] leading-none text-faint lg:inline">
+            <kbd aria-hidden className="hidden text-[10px] text-faint lg:inline">
               ⌘K
             </kbd>
           </button>
-          <ThemeToggle />
-          <a href="#contact" className="btn btn-primary hidden !min-h-10 !px-4 !text-sm sm:inline-flex">
-            Get in touch
+          <button type="button" data-theme-toggle aria-label="Toggle dark / light theme" className="grid h-10 w-10 place-items-center border border-fg/[0.28] text-fg transition-colors hover:border-accent hover:text-accent">
+            <Sun className="theme-sun h-4 w-4" aria-hidden />
+            <Moon className="theme-moon h-4 w-4" aria-hidden />
+          </button>
+          <a href="#contact" className="btn btn-primary !min-h-10 hidden sm:inline-flex" data-magnetic>
+            Contact
           </a>
-          <button
-            type="button"
-            className={cn(iconButton, 'md:hidden')}
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
+          <button type="button" data-menu-btn aria-controls="mobile-nav" aria-expanded="false" aria-label="Open menu" className="grid h-10 w-10 place-items-center border border-fg/[0.28] lg:hidden">
+            <Menu className="h-4 w-4" aria-hidden />
           </button>
         </div>
       </div>
 
-      <nav
-        id="mobile-nav"
-        aria-label="Mobile"
-        hidden={!open}
-        className="border-t border-fg/10 md:hidden"
-      >
-        <ul className="container-page flex flex-col py-3">
-          {navItems.map((item) => (
+      <nav id="mobile-nav" data-menu aria-label="Mobile" hidden className="border-t border-fg/10 bg-bg/95 backdrop-blur-md lg:hidden">
+        <ul className="container-page py-2">
+          {navItems.map((item, i) => (
             <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-fg/[0.07] py-4 font-serif text-3xl leading-none last:border-b-0"
-              >
-                {item.label}
-                <span aria-hidden className="font-mono text-xs text-faint">
-                  →
-                </span>
+              <a href={`#${item.id}`} data-menu-link className="flex items-baseline gap-4 border-b border-fg/[0.08] py-4 last:border-b-0">
+                <span className="hud !text-accent">0{i + 1}</span>
+                <span className="display text-3xl">{item.label}</span>
               </a>
             </li>
           ))}
         </ul>
       </nav>
     </header>
+  );
+}
+
+/** Right-hand section rail (desktop only). */
+export function Rail() {
+  return (
+    <nav aria-label="Sections" className="no-print fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 xl:block">
+      <ul className="flex flex-col items-end gap-3">
+        {navItems.map((item, i) => (
+          <li key={item.id}>
+            <a href={`#${item.id}`} data-spy className="hud group flex items-center gap-3 transition-colors hover:!text-fg aria-[current=true]:!text-accent">
+              <span className="translate-x-2 opacity-0 transition-all duration-500 ease-expo group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+                {item.label}
+              </span>
+              <span aria-hidden className="block h-px w-4 bg-current transition-all duration-500 ease-expo group-hover:w-8 group-aria-[current=true]:w-8" />
+              <span className="sr-only">0{i + 1}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }

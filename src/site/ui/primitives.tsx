@@ -1,9 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-export const iconButton =
-  'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-fg/15 text-muted transition-colors duration-200 hover:border-fg/35 hover:text-fg';
-
 /** Custom properties (--d, --to, ...) need a cast in React's CSSProperties. */
 export const vars = (v: Record<string, string | number>) => v as CSSProperties;
 
@@ -13,7 +10,7 @@ export function Chip({ children, className }: { children: ReactNode; className?:
 
 export function ChipList({ items, className }: { items: readonly string[]; className?: string }) {
   return (
-    <ul className={cn('flex flex-wrap gap-2', className)}>
+    <ul className={cn('flex flex-wrap gap-1.5', className)}>
       {items.map((item) => (
         <li key={item}>
           <Chip>{item}</Chip>
@@ -25,10 +22,10 @@ export function ChipList({ items, className }: { items: readonly string[]; class
 
 export function Bullets({ items, className }: { items: readonly string[]; className?: string }) {
   return (
-    <ul className={cn('max-w-[48rem] space-y-3.5', className)}>
+    <ul className={cn('max-w-[52rem] space-y-3.5', className)}>
       {items.map((item) => (
         <li key={item} className="relative pl-6 leading-relaxed text-muted">
-          <span aria-hidden className="absolute left-0 top-[0.78em] h-px w-3.5 bg-accent" />
+          <span aria-hidden className="absolute left-0 top-[0.62em] h-1.5 w-1.5 bg-accent" />
           {item}
         </li>
       ))}
@@ -36,30 +33,53 @@ export function Bullets({ items, className }: { items: readonly string[]; classN
   );
 }
 
-export function SectionHeading({
+/** Section header: index, hairline, label, then a big split-word title. */
+export function SectionHead({
   id,
-  index,
+  no,
   label,
   title,
   children,
 }: {
   id: string;
-  index: string;
+  no: string;
   label: string;
   title: ReactNode;
   children?: ReactNode;
 }) {
   return (
-    <div className="mb-14 sm:mb-20" data-reveal>
-      <p className="eyebrow flex items-center gap-4">
-        <span className="text-accent">{index}</span>
-        <span aria-hidden className="h-px w-10 bg-fg/20" />
-        <span>{label}</span>
-      </p>
-      <h2 id={id} className="h2 mt-6 max-w-4xl">
+    <div className="relative mb-14 sm:mb-20">
+      <span
+        aria-hidden
+        data-reveal
+        className="display pointer-events-none absolute -top-2 right-0 hidden select-none text-[clamp(9rem,17vw,21rem)] leading-none text-transparent lg:block"
+        style={{ WebkitTextStroke: '1px rgb(var(--fg) / 0.13)' }}
+      >
+        {no}
+      </span>
+      <div className="relative flex items-center gap-4">
+        <span className="hud !text-accent">{no}</span>
+        <span aria-hidden data-reveal="line" className="h-px flex-1 bg-fg/20" />
+        <span className="hud">{label}</span>
+      </div>
+      <h2 id={id} data-split className="display display-lg mt-8 max-w-[16ch]">
         {title}
       </h2>
-      {children ? <div className="mt-6 max-w-prose text-lg text-muted">{children}</div> : null}
+      {children ? (
+        <p data-reveal className="lede mt-7 max-w-prose">
+          {children}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/** Small "table" row: label on the left, value on the right. */
+export function KV({ k, children }: { k: string; children: ReactNode }) {
+  return (
+    <div className="grid grid-cols-[7rem_1fr] gap-4 border-t border-fg/[0.12] py-3.5 sm:grid-cols-[9rem_1fr]">
+      <dt className="hud pt-0.5">{k}</dt>
+      <dd className="text-[15px] text-fg">{children}</dd>
     </div>
   );
 }

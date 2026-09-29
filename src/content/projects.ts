@@ -18,6 +18,7 @@ export interface FlowStep {
 
 export interface Project {
   id: string;
+  short: string;
   cover: CoverKind;
   tone: Tone;
   title: string;
@@ -43,6 +44,7 @@ export const kindLabels: Record<ProjectKind, string> = {
 export const projects: Project[] = [
   {
     id: 'trading',
+    short: 'Agentic Trading System',
     cover: 'trading',
     tone: 'mint',
     title: 'Agentic Algorithmic Trading System on a Live Brokerage',
@@ -102,6 +104,7 @@ export const projects: Project[] = [
   },
   {
     id: 'cloud',
+    short: 'Cloud-Native Platform',
     cover: 'cloud',
     tone: 'sky',
     title: 'Cloud-Native Distributed To-Do Platform',
@@ -147,6 +150,7 @@ export const projects: Project[] = [
   },
   {
     id: 'wellmarkt',
+    short: 'Wellmarkt Commerce',
     cover: 'commerce',
     tone: 'sun',
     title: 'Wellmarkt: Event-Driven E-Commerce Platform',
@@ -190,6 +194,7 @@ export const projects: Project[] = [
   },
   {
     id: 'banking',
+    short: 'Banking DB & Locking',
     cover: 'banking',
     tone: 'sky',
     title: 'Banking System Database and Concurrency Control',
@@ -208,6 +213,7 @@ export const projects: Project[] = [
   },
   {
     id: 'cpp',
+    short: 'C++ Data Structures',
     cover: 'dsa',
     tone: 'lilac',
     title: 'Generic Data Structures and Recursive Algorithms in C++',
@@ -229,6 +235,7 @@ export const projects: Project[] = [
   },
   {
     id: 'expense',
+    short: 'Expense Tracker',
     cover: 'expense',
     tone: 'coral',
     title: 'Expense Tracker: Mobile App and Backend',
@@ -247,6 +254,7 @@ export const projects: Project[] = [
   },
   {
     id: 'sir',
+    short: 'SIR Rail Simulation',
     cover: 'sir',
     tone: 'mint',
     title: "SIR Epidemic Simulation on Istanbul’s Rail Network",
@@ -265,6 +273,7 @@ export const projects: Project[] = [
   },
   {
     id: 'turkey',
+    short: 'Turkey Data Dashboard',
     cover: 'turkey',
     tone: 'sun',
     title: 'Analyzing Turkey: Socio-Economic Data Dashboard',
@@ -283,6 +292,7 @@ export const projects: Project[] = [
   },
   {
     id: 'pure-attention',
+    short: 'PURE · Mixed Reality',
     cover: 'attention',
     tone: 'pink',
     title: 'Undergraduate Research: Attention Detection in Mixed Reality',
@@ -298,6 +308,7 @@ export const projects: Project[] = [
   },
   {
     id: 'pure-bio',
+    short: 'PURE · Biosensors',
     cover: 'bio',
     tone: 'lilac',
     title: 'Undergraduate Research: Biosensors',

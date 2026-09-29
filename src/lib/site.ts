@@ -11,11 +11,11 @@ export const asset = (path: string) => `${basePath}${path}`;
 export const cvHref = asset('/Kutluhan_Ayguzel_CV.pdf');
 
 export const navItems = [
-  { id: 'about', label: 'About' },
+  { id: 'about', label: 'Profile' },
   { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
+  { id: 'projects', label: 'Work' },
   { id: 'stack', label: 'Stack' },
-  { id: 'education', label: 'Education' },
+  { id: 'education', label: 'Credentials' },
   { id: 'contact', label: 'Contact' },
 ] as const;
 

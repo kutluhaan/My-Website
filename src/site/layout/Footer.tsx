@@ -3,28 +3,29 @@ import { profile } from '@/content/profile';
 
 export function Footer() {
   return (
-    <footer className="border-t border-fg/10 py-10">
-      <div className="container-page flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-1 text-sm text-muted">
-          <p>
-            © {new Date().getFullYear()} {profile.name}. Designed and built by hand with Next.js and Tailwind.
-          </p>
-          <p className="font-mono text-xs text-faint">
-            Last updated {profile.updated} · press <kbd className="rounded border border-fg/15 px-1 py-0.5">⌘K</kbd> or{' '}
-            <kbd className="rounded border border-fg/15 px-1 py-0.5">/</kbd> to search
+    <footer className="relative border-t border-fg/[0.12] py-10">
+      <div className="container-page grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-6">
+          <p className="display display-md">{profile.name}</p>
+          <p className="hud mt-4 flex items-center gap-3">
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-ok" />
+            System online · Istanbul 41.0082°N 28.9784°E · Updated {profile.updated}
           </p>
         </div>
-        <nav aria-label="Social" className="flex items-center gap-5 text-sm">
-          <a href={profile.github} className="link" target="_blank" rel="noopener noreferrer">
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-3 lg:col-span-6 lg:justify-end">
+          <a href={profile.github} className="hud link !text-fg" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
-          <a href={profile.linkedin} className="link" target="_blank" rel="noopener noreferrer">
+          <a href={profile.linkedin} className="hud link !text-fg" target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
-          <a href="#top" className="inline-flex items-center gap-1.5 text-muted transition-colors hover:text-fg">
-            Back to top <ArrowUp className="h-4 w-4" aria-hidden />
+          <a href="#top" className="hud inline-flex items-center gap-2 hover:!text-accent">
+            Back to top <ArrowUp className="h-3.5 w-3.5" aria-hidden />
           </a>
-        </nav>
+        </div>
+        <p className="hud lg:col-span-12">
+          © {new Date().getFullYear()} · Press <kbd className="border border-fg/20 px-1.5 py-0.5">⌘K</kbd> or <kbd className="border border-fg/20 px-1.5 py-0.5">/</kbd> to search
+        </p>
       </div>
     </footer>
   );

@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 // Every color is a CSS variable holding an "R G B" triplet (see globals.css),
-// so light/dark theming and opacity modifiers (bg-fg/10) both work.
+// so theming and opacity modifiers (bg-fg/10, stroke-accent/60) both work.
 const token = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
 
 const config: Config = {
@@ -10,6 +10,11 @@ const config: Config = {
     './src/site/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    borderRadius: {
+      none: '0px',
+      DEFAULT: '0px',
+      full: '9999px', // only for status dots
+    },
     extend: {
       colors: {
         bg: token('bg'),
@@ -21,25 +26,19 @@ const config: Config = {
         faint: token('faint'),
         accent: token('accent'),
         'accent-fg': token('accent-fg'),
+        steel: token('steel'),
         ok: token('ok'),
-        coral: token('coral'),
-        sun: token('sun'),
-        mint: token('mint'),
-        sky: token('sky'),
-        lilac: token('lilac'),
-        pink: token('pink'),
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-serif)', 'Georgia', 'serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       maxWidth: {
-        page: '78rem',
-        prose: '62ch',
+        page: '90rem',
+        prose: '60ch',
       },
       transitionTimingFunction: {
-        out: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        expo: 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
     },
   },

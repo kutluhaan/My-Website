@@ -1,8 +1,6 @@
 import { ArrowUpRight, Download, Github, Linkedin, Mail, Phone } from 'lucide-react';
 import { profile } from '@/content/profile';
 import { cvHref, mailto } from '@/lib/site';
-import { PaperPlane } from '@/site/art/misc';
-import { CopyButton } from '@/site/ui/CopyButton';
 
 const rows = [
   { icon: Mail, label: 'Email', value: profile.email, href: mailto, external: false },
@@ -13,72 +11,56 @@ const rows = [
 
 export function Contact() {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="section relative">
+    <section id="contact" aria-labelledby="contact-title" className="section relative overflow-hidden">
+      <div aria-hidden className="vignette absolute inset-0 -z-10 opacity-80" />
       <div className="container-page">
-        <div className="relative overflow-hidden rounded-[2.25rem] border border-fg/[0.08] bg-gradient-to-br from-sky/25 via-surface to-lilac/25 p-7 sm:p-12 lg:p-16" style={{ boxShadow: 'var(--shadow-2)' }}>
-          <div aria-hidden className="mesh absolute inset-0">
-            <i className="m3" />
-            <i className="m4" />
+        <div className="flex items-center gap-4">
+          <span className="hud !text-accent">06</span>
+          <span aria-hidden data-reveal="line" className="h-px flex-1 bg-fg/20" />
+          <span className="hud">Contact</span>
+        </div>
+
+        <h2 id="contact-title" data-split className="display mt-10 !text-[clamp(4.5rem,0.5rem+13.5vw,15rem)]">
+          Let&rsquo;s build <span className="outline">something</span> real.
+        </h2>
+
+        <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-6" data-reveal>
+            <p className="lede max-w-lg !text-fg/85">
+              I&rsquo;m open to AI and backend engineering roles across Türkiye, Europe and remote. The fastest way to reach me is email.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <a href={mailto} className="btn btn-primary" data-magnetic data-cursor="MAIL">
+                Say hello
+                <ArrowUpRight className="arrow h-4 w-4" aria-hidden />
+              </a>
+              <a href={cvHref} className="btn btn-ghost" download data-magnetic data-cursor="PDF">
+                <Download className="h-4 w-4" aria-hidden />
+                Download CV
+              </a>
+              <button type="button" data-copy={profile.email} className="btn btn-ghost" data-cursor="COPY">
+                <span data-copy-label>Copy email</span>
+              </button>
+            </div>
+            <p className="hud mt-8">
+              Based in {profile.location} · UTC+3 · English &amp; Turkish day to day
+            </p>
           </div>
 
-          <div className="relative grid gap-14 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-7" data-reveal>
-              <p className="eyebrow flex items-center gap-4">
-                <span className="text-accent">06</span>
-                <span aria-hidden className="h-px w-10 bg-fg/20" />
-                Contact
-              </p>
-              <h2 id="contact-title" className="display mt-6 !text-[clamp(3.25rem,1.6rem+7.4vw,8rem)]">
-                Let&rsquo;s build
-                <br />
-                <span className="italic">
-                  <span className="mark">something real.</span>
-                </span>
-              </h2>
-              <p className="lede mt-8 max-w-lg">
-                I&rsquo;m open to AI and backend engineering roles across Türkiye, Europe and remote. The fastest way to reach me is
-                email.
-              </p>
-              <div className="mt-10 flex flex-wrap items-center gap-3">
-                <a href={mailto} className="btn btn-primary">
-                  Say hello
-                  <ArrowUpRight className="arrow h-4 w-4" aria-hidden />
+          <ul className="border-b border-fg/[0.14] lg:col-span-6" data-reveal style={{ transitionDelay: '120ms' }}>
+            {rows.map(({ icon: Icon, label, value, href, external }) => (
+              <li key={label} className="border-t border-fg/[0.14]">
+                <a href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="wrow grid-cols-[2.5rem_1fr_1.5rem] gap-4 px-2 py-5" data-cursor={label.toUpperCase()}>
+                  <Icon className="h-[18px] w-[18px] text-accent" aria-hidden />
+                  <span className="min-w-0">
+                    <span className="hud block">{label}</span>
+                    <span className="display mt-1 block truncate text-[clamp(1.4rem,1rem+1.4vw,2.2rem)] leading-none normal-case">{value}</span>
+                  </span>
+                  <ArrowUpRight className="go h-5 w-5 text-faint" aria-hidden />
                 </a>
-                <a href={cvHref} className="btn btn-secondary" download>
-                  <Download className="h-4 w-4" aria-hidden />
-                  Download CV
-                </a>
-                <CopyButton text={profile.email} label="Copy email" />
-              </div>
-            </div>
-
-            <div className="lg:col-span-5" data-reveal style={{ transitionDelay: '120ms' }}>
-              <div data-live className="mx-auto -mb-2 w-56 sm:w-64 lg:ml-auto lg:mr-4">
-                <PaperPlane />
-              </div>
-              <ul className="rounded-3xl border border-fg/[0.08] bg-surface/80 px-5 backdrop-blur">
-                {rows.map(({ icon: Icon, label, value, href, external }) => (
-                  <li key={label} className="border-b border-fg/[0.08] last:border-b-0">
-                    <a
-                      href={href}
-                      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex items-center gap-4 py-4"
-                    >
-                      <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/10 text-accent">
-                        <Icon className="h-[18px] w-[18px]" />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="eyebrow block">{label}</span>
-                        <span className="mt-0.5 block truncate text-[16px]">{value}</span>
-                      </span>
-                      <ArrowUpRight className="h-5 w-5 shrink-0 text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" aria-hidden />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-5 text-sm text-muted">Based in {profile.location}, working in UTC+3. English and Turkish day to day.</p>
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

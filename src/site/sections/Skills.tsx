@@ -1,110 +1,83 @@
 import { skillGroups, skillsNote } from '@/content/skills';
 import { cn } from '@/lib/utils';
-import { StackLayers } from '@/site/art/misc';
-import { ChipList, SectionHeading, vars } from '@/site/ui/primitives';
-import { Spotlight } from '@/site/ui/Spotlight';
+import { Figure } from '@/site/art/hud';
+import { StackLayers } from '@/site/art/figs-b';
+import { SectionHead, vars } from '@/site/ui/primitives';
 
-const span: Record<string, string> = {
-  languages: 'lg:col-span-2',
-  'data-stores': 'lg:col-span-2',
-  ml: 'lg:col-span-2',
-  frontend: 'lg:col-span-3',
-  process: 'lg:col-span-3',
-};
+const pad = (n: number) => String(n).padStart(2, '0');
 
-const dot: Record<string, string> = {
-  ai: 'bg-lilac',
-  backend: 'bg-sky',
-  cloud: 'bg-mint',
-  languages: 'bg-sun',
-  'data-stores': 'bg-coral',
-  ml: 'bg-pink',
-  frontend: 'bg-sky',
-  process: 'bg-mint',
-};
-
-function Ticker({ reverse }: { reverse?: boolean }) {
-  const all = skillGroups.flatMap((g) => g.items);
-  const half = Math.ceil(all.length / 2);
-  const words = reverse ? all.slice(half) : all.slice(0, half);
-  const row = (hidden?: boolean) => (
-    <div className="flex shrink-0 items-center gap-3 pr-3" aria-hidden={hidden}>
-      {words.map((w) => (
-        <span key={w} className="whitespace-nowrap rounded-full border border-fg/[0.08] bg-surface px-4 py-2 font-mono text-xs text-muted">
-          {w}
-        </span>
-      ))}
-    </div>
-  );
-  return (
-    <div className="marquee-wrap overflow-hidden" aria-hidden>
-      <div className="marquee" style={vars({ '--speed': reverse ? '70s' : '80s', animationDirection: reverse ? 'reverse' : 'normal' })}>
-        {row()}
-        {row(true)}
-      </div>
-    </div>
-  );
-}
-
+/** Capability matrix: every group is a row of a hardware-style spec table. */
 export function Skills() {
-  const core = skillGroups.filter((g) => g.core);
-  const rest = skillGroups.filter((g) => !g.core);
+  const total = skillGroups.reduce((n, g) => n + g.items.length, 0);
 
   return (
-    <section id="stack" aria-labelledby="stack-title" className="section">
+    <section id="stack" aria-labelledby="stack-title" className="section relative">
       <div className="container-page">
-        <div className="mb-14 grid items-center gap-10 lg:grid-cols-12 sm:mb-20">
-          <div className="lg:col-span-7">
-            <SectionHeading
-              id="stack-title"
-              index="04"
-              label="Stack"
-              title={
-                <>
-                  The whole path, <span className="italic mark">model to metal</span>.
-                </>
-              }
-            >
-              {skillsNote}
-            </SectionHeading>
-          </div>
-          <div data-reveal="scale" data-live className="mx-auto w-full max-w-md lg:col-span-5">
-            <StackLayers />
-          </div>
-        </div>
+        <SectionHead
+          id="stack-title"
+          no="04"
+          label="Stack"
+          title={
+            <>
+              Model to <span className="outline">metal</span>.
+            </>
+          }
+        >
+          {skillsNote}
+        </SectionHead>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          {core.map((g, i) => (
-            <div key={g.id} data-reveal style={vars({ '--d': `${i * 90}ms` })}>
-              <Spotlight as="section" className="h-full p-6 sm:p-7">
-                <h3 className="flex items-center gap-3 font-serif text-4xl leading-none tracking-tight">
-                  <span aria-hidden className={cn('h-3 w-3 shrink-0 rounded-full', dot[g.id])} />
-                  {g.title}
-                </h3>
-                <p className="mt-2 font-mono text-xs text-faint">{g.items.length} skills</p>
-                <ChipList items={g.items} className="mt-6" />
-              </Spotlight>
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28" data-reveal>
+              <Figure no="17" title="STACK LAYERS" ratio="aspect-[6/5]">
+                <div className="absolute inset-0 grid place-items-center p-6 pt-9">
+                  <StackLayers />
+                </div>
+              </Figure>
+              <dl className="mt-6 grid grid-cols-3 border border-fg/[0.12]">
+                {[
+                  ['Groups', skillGroups.length],
+                  ['Tools', total],
+                  ['Layers', 3],
+                ].map(([k, v], i) => (
+                  <div key={k} className={cn('p-4', i && 'border-l border-fg/[0.12]')}>
+                    <dt className="hud">{k}</dt>
+                    <dd className="display num mt-2 text-4xl">{v}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-          {rest.map((g, i) => (
-            <div key={g.id} data-reveal style={vars({ '--d': `${i * 70}ms` })} className={cn(span[g.id] ?? 'lg:col-span-2')}>
-              <Spotlight as="section" className="h-full p-5 sm:p-6">
-                <h3 className="flex items-center gap-2.5 text-[15px] font-semibold tracking-tight">
-                  <span aria-hidden className={cn('h-2.5 w-2.5 shrink-0 rounded-full', dot[g.id])} />
-                  {g.title}
-                </h3>
-                <ChipList items={g.items} className="mt-4" />
-              </Spotlight>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-14 space-y-3">
-          <Ticker />
-          <Ticker reverse />
+          <ol className="lg:col-span-7">
+            {skillGroups.map((g, i) => (
+              <li
+                key={g.id}
+                data-reveal
+                style={vars({ '--d': `${(i % 4) * 60}ms` })}
+                className="group relative border-t border-fg/[0.12] py-7 last:border-b sm:py-8"
+              >
+                <span aria-hidden className="absolute left-0 top-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-700 ease-expo group-hover:scale-x-100" />
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="display flex items-baseline gap-4 text-[clamp(1.6rem,1.1rem+1.6vw,2.6rem)] leading-none">
+                    <span className="hud !text-accent">{pad(i + 1)}</span>
+                    {g.title}
+                  </h3>
+                  <p className="hud shrink-0">
+                    {g.core && <span className="mr-3 text-accent">◆ core</span>}
+                    {pad(g.items.length)}
+                  </p>
+                </div>
+                <ul className="mt-5 flex flex-wrap gap-1.5 sm:pl-12">
+                  {g.items.map((item) => (
+                    <li key={item}>
+                      <span className={cn('chip transition-colors duration-300 hover:border-accent hover:text-fg', g.core && 'border-fg/[0.24] !text-fg/80')}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

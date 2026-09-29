@@ -1,28 +1,22 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
+import { Archivo, Martian_Mono } from 'next/font/google';
 import { profile } from '@/content/profile';
-import { asset, siteOrigin, siteUrl } from '@/lib/site';
-import { CommandPalette } from '@/site/layout/CommandPalette';
+import { asset, cvHref, siteOrigin, siteUrl } from '@/lib/site';
+import { Behavior } from '@/site/behavior/Behavior';
 import { Footer } from '@/site/layout/Footer';
-import { Header } from '@/site/layout/Header';
-import { PageEffects } from '@/site/layout/PageEffects';
+import { Header, Rail } from '@/site/layout/Header';
+import { Palette } from '@/site/layout/Palette';
 import './globals.css';
 
-const sans = Inter({
+// Archivo is a variable font with a width axis: at wdth 62 it is the extra-condensed display face.
+const sans = Archivo({
   subsets: ['latin'],
+  axes: ['wdth'],
   variable: '--font-sans',
   display: 'swap',
 });
 
-const serif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
-const mono = JetBrains_Mono({
+const mono = Martian_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
@@ -68,12 +62,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#FAFBFC',
-  colorScheme: 'light',
+  themeColor: '#07080A',
+  colorScheme: 'dark light',
 };
 
-// Runs before first paint: restores a saved theme and arms scroll-reveal.
-const bootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.dataset.theme=t}catch(e){}})();`;
+// Runs before first paint: restores a saved theme (dark is the default) and arms scroll-reveal.
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('theme')==='light')d.dataset.theme='light'}catch(e){}})();`;
 
 const personLd = {
   '@context': 'https://schema.org',
@@ -90,25 +84,42 @@ const personLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
       </head>
-      <body>
+      <body className="grain">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-accent focus:px-5 focus:py-3 focus:text-accent-fg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-5 focus:py-3 focus:font-mono focus:text-xs focus:uppercase focus:text-accent-fg"
         >
           Skip to main content
         </a>
-        <PageEffects />
+        <div aria-hidden data-progress className="fixed inset-x-0 top-0 z-[70] h-[2px] origin-left scale-x-0 bg-accent" />
+        <div aria-hidden className="cols">
+          <div className="container-page h-full">
+            <div className="grid h-full grid-cols-4 lg:grid-cols-12">
+              {Array.from({ length: 12 }, (_, i) => (
+                <i key={i} className={i > 3 ? 'hidden lg:block' : ''} />
+              ))}
+            </div>
+          </div>
+        </div>
         <Header />
-        <main id="main-content" tabIndex={-1} className="outline-none">
+        <Rail />
+        <main id="main-content" tabIndex={-1} className="relative z-[1] outline-none">
           {children}
         </main>
-        <Footer />
-        <CommandPalette />
+        <div className="relative z-[1]">
+          <Footer />
+        </div>
+        <Palette github={profile.github} linkedin={profile.linkedin} email={profile.email} cv={cvHref} />
+        <div aria-hidden className="cur cur-dot" data-cur-dot />
+        <div aria-hidden className="cur cur-ring" data-cur-ring>
+          <span />
+        </div>
+        <Behavior />
       </body>
     </html>
   );
